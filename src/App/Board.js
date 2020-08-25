@@ -6,6 +6,7 @@ export const Board = (props) => {
   const rows = useSelector((state) => state.board);
   return (
     <div>
+      <Row></Row>
       {rows.map((row, rowIndex) => {
         // row.map((cell) => {
         //   return <Cell></Cell>;
