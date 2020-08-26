@@ -25,6 +25,10 @@ const boardState = {
   ],
 };
 
+const hoveredStade = {
+  hovered: false,
+};
+
 const shipList = (state = shipListState, action) => {
   return [...state.ships];
 };
@@ -33,9 +37,14 @@ const board = (state = boardState, action) => {
   return [...state.cells];
 };
 
+const hovered = (state = hoveredStade, action) => {
+  return state.hovered;
+};
+
 const battleship = combineReducers({
   shipList,
   board,
+  hovered,
 });
 
 export default battleship;

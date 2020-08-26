@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Cell } from "./Cell";
+import { Hoverable } from "./Hoverable";
 
 export const Row = (props) => {
   //   const rows = useSelector((state) => state.board);
@@ -11,10 +12,12 @@ export const Row = (props) => {
         //   return <Cell></Cell>;
         // });
         return (
+          // <Hoverable>
           <Cell
             key={`${props.rowIndex}${cellIndex}`}
-            cellType={props.cellType}
+            // val={props.cellType}
           ></Cell>
+          // </Hoverable>
         );
       })}
     </div>

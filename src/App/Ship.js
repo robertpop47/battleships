@@ -4,8 +4,8 @@ export const Ship = (props) => {
   return (
     <div
       style={{
-        width: 10 * props.length,
-        height: 10,
+        width: `${20 * props.length}px`,
+        height: "20px",
         border: "1px solid grey",
         backgroundColor: "lightgrey",
         marginBottom: "5px",

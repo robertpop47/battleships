@@ -11,7 +11,9 @@ const App = () => {
         <h1>Hello React</h1>
       </div> */}
       <Ships></Ships>
-      <Board></Board>
+      <div className="grid">
+        <Board></Board>
+      </div>
     </Provider>
   );
 };

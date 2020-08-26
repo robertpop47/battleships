@@ -5,8 +5,7 @@ import { Row } from "./Row";
 export const Board = (props) => {
   const rows = useSelector((state) => state.board);
   return (
-    <div>
-      <Row></Row>
+    <div className="board">
       {rows.map((row, rowIndex) => {
         // row.map((cell) => {
         //   return <Cell></Cell>;

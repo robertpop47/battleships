@@ -1,3 +1,82 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+.container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #f8f8f8 0% 0% no-repeat padding-box;
+  opacity: 1;
+}
+
+#root {
+  display: flex;
+  width: 735px;
+  margin: auto;
+}
+
+.ships {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 20px;
+}
+
+.grid {
+  width: 500px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 5px #03030312;
+  border-radius: 20px;
+  opacity: 1;
+}
+
+.board {
+  border: 1px solid black;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+}
+
+header {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+footer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+  width: 500px;
+}
+
+.mouse {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+.text_mouse {
+  font-weight: bold;
+  padding-right: 5px;
+  padding-left: 5px;
 }
