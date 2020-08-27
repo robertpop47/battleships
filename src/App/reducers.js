@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { MOUSE_ENTER, MOUSE_LEAVE } from "./actions";
 
 const shipListState = {
   ships: [
@@ -26,25 +27,68 @@ const boardState = {
 };
 
 const hoveredStade = {
-  hovered: false,
+  hovered: [
+    Array(10).fill(false),
+    Array(10).fill(false),
+    Array(10).fill(false),
+    Array(10).fill(false),
+    Array(10).fill(false),
+    Array(10).fill(false),
+    Array(10).fill(false),
+    Array(10).fill(false),
+    Array(10).fill(false),
+    Array(10).fill(false),
+  ],
+};
+
+const cellColorState = {
+  color: "white",
 };
 
 const shipList = (state = shipListState, action) => {
-  return [...state.ships];
+  // debugger;
+  return [...shipListState.ships];
 };
 
 const board = (state = boardState, action) => {
-  return [...state.cells];
+  return [...boardState.cells];
 };
 
 const hovered = (state = hoveredStade, action) => {
-  return state.hovered;
+  if (action.type === MOUSE_ENTER) {
+    let newHovered = [...hoveredStade.hovered];
+    const rowNumber = action.coordinates[0];
+    const colNumber = action.coordinates[1];
+    // console.log(rowNumber, " ", colNumber);
+    newHovered[rowNumber][colNumber] = true;
+    return [...newHovered];
+  }
+  if (action.type === MOUSE_LEAVE) {
+    let newHovered = [...hoveredStade.hovered];
+    const rowNumber = action.coordinates[0];
+    const colNumber = action.coordinates[1];
+    // console.log(rowNumber, " ", colNumber);
+    newHovered[rowNumber][colNumber] = false;
+    return [...newHovered];
+  }
+  return [...hoveredStade.hovered];
+};
+
+const color = (state = cellColorState, action) => {
+  if (action.type === MOUSE_ENTER) {
+    return { color: "green" };
+  }
+  if (action.type === MOUSE_LEAVE) {
+    return { color: "white" };
+  }
+  return { color: "white" };
 };
 
 const battleship = combineReducers({
   shipList,
   board,
   hovered,
+  color,
 });
 
 export default battleship;

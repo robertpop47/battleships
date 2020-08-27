@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Row } from "./Row";
+import Row from "./Row";
 
 export const Board = (props) => {
   const rows = useSelector((state) => state.board);
