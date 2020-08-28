@@ -1,94 +1,98 @@
 import { combineReducers } from "redux";
-import { MOUSE_ENTER, MOUSE_LEAVE } from "./actions";
+import { UPDATE_GRID, UPDATE_SHIP } from "./actions";
 
-const shipListState = {
+const boardMargin = {
+  0: null,
+  1: "A",
+  2: "B",
+  3: "C",
+  4: "D",
+  5: "E",
+  6: "F",
+  7: "G",
+  8: "H",
+  9: "I",
+  10: "J",
+};
+
+const initialState = {
   ships: [
-    { name: "Carrier", length: 5 },
-    { name: "Battleship", length: 4 },
-    { name: "Cruiser", length: 3 },
-    { name: "Submarine", length: 3 },
-    { name: "Destroyer", length: 2 },
+    {
+      name: "Carrier",
+      length: 5,
+      positions: [],
+    },
+    {
+      name: "Battleship",
+      length: 4,
+      positions: [],
+    },
+    {
+      name: "Cruiser",
+      length: 3,
+      positions: [],
+    },
+    {
+      name: "Submarine",
+      length: 3,
+      positions: [],
+    },
+    {
+      name: "Destroyer",
+      length: 2,
+      positions: [],
+    },
   ],
+  cells: Array(11)
+    .fill(null)
+    .map((e) => Array(11).fill(null)),
+  currentShip: 0,
 };
 
-const boardState = {
-  cells: [
-    Array(10).fill(null),
-    Array(10).fill(null),
-    Array(10).fill(null),
-    Array(10).fill(null),
-    Array(10).fill(null),
-    Array(10).fill(null),
-    Array(10).fill(null),
-    Array(10).fill(null),
-    Array(10).fill(null),
-    Array(10).fill(null),
-  ],
+const generateBoard = () => {
+  for (let i = 0; i < initialState.cells[0].length; i++) {
+    for (let j = 0; j < initialState.cells.length; j++) {
+      if (i === 0) {
+        initialState.cells[i][j] = { status: "label", label: boardMargin[j] };
+      } else if (i !== 0 && j === 0) {
+        initialState.cells[i][j] = { status: "label", label: i };
+      } else {
+        initialState.cells[i][j] = {
+          status: "empty",
+          hover: false,
+          hit: false,
+          type: null,
+        };
+      }
+    }
+  }
+  return [...initialState.cells];
 };
 
-const hoveredStade = {
-  hovered: [
-    Array(10).fill(false),
-    Array(10).fill(false),
-    Array(10).fill(false),
-    Array(10).fill(false),
-    Array(10).fill(false),
-    Array(10).fill(false),
-    Array(10).fill(false),
-    Array(10).fill(false),
-    Array(10).fill(false),
-    Array(10).fill(false),
-  ],
-};
-
-const cellColorState = {
-  color: "white",
-};
-
-const shipList = (state = shipListState, action) => {
+const shipList = (state = initialState.ships, action) => {
   // debugger;
-  return [...shipListState.ships];
+  return [...state];
 };
 
-const board = (state = boardState, action) => {
-  return [...boardState.cells];
+const currentShip = (state = initialState.currentShip, action) => {
+  if (action.type === UPDATE_SHIP) {
+    return state + 1;
+  }
+  return state;
 };
 
-const hovered = (state = hoveredStade, action) => {
-  if (action.type === MOUSE_ENTER) {
-    let newHovered = [...hoveredStade.hovered];
-    const rowNumber = action.coordinates[0];
-    const colNumber = action.coordinates[1];
-    // console.log(rowNumber, " ", colNumber);
-    newHovered[rowNumber][colNumber] = true;
-    return [...newHovered];
+const board = (state = generateBoard(), action) => {
+  if (action.type === UPDATE_GRID) {
+    // return [...action.board];
+    return [...state];
   }
-  if (action.type === MOUSE_LEAVE) {
-    let newHovered = [...hoveredStade.hovered];
-    const rowNumber = action.coordinates[0];
-    const colNumber = action.coordinates[1];
-    // console.log(rowNumber, " ", colNumber);
-    newHovered[rowNumber][colNumber] = false;
-    return [...newHovered];
-  }
-  return [...hoveredStade.hovered];
-};
-
-const color = (state = cellColorState, action) => {
-  if (action.type === MOUSE_ENTER) {
-    return { color: "green" };
-  }
-  if (action.type === MOUSE_LEAVE) {
-    return { color: "white" };
-  }
-  return { color: "white" };
+  return [...state];
 };
 
 const battleship = combineReducers({
   shipList,
+  currentShip,
   board,
-  hovered,
-  color,
 });
 
 export default battleship;

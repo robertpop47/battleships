@@ -1,31 +1,24 @@
 import React from "react";
-
+import { classUpdate } from "./placeOnBoard";
 import { useSelector, connect, useDispatch } from "react-redux";
 import { mouseEnter, mouseLeave } from "./actions";
 
-const Cell = (props) => {
-  const dispatch = useDispatch();
-
-  return (
-    <div
-      className="cell"
-      style={{
-        height: "40px",
-        width: "40px",
-        border: "1px solid grey",
-        backgroundColor: props.color,
-      }}
-      onMouseEnter={() => {
-        dispatch(mouseEnter(props.coordinates));
-      }}
-      onMouseLeave={() => {
-        dispatch(mouseLeave(props.coordinates));
-      }}
-    >
-      {props.coordinates}
-      {/* {console.log(props.key)} */}
-    </div>
-  );
+const Cell = ({ value, i, j, handleHover, handleClick, handleRotate }) => {
+  if (value.status === "label") {
+    return <div className="cell-text">{value.label}</div>;
+  } else
+    return (
+      <div
+        className={classUpdate(value)}
+        contextMenu="mymenu"
+        onContextMenu={() => handleRotate()}
+        onMouseEnter={() => handleHover(i, j, "enter")}
+        onMouseLeave={() => handleHover(i, j, "leave")}
+        onClick={() => handleClick(i, j)}
+      >
+        {value.type}
+      </div>
+    );
 };
 
-export default connect()(Cell);
+export default Cell;

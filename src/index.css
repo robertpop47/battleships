@@ -38,8 +38,8 @@ body {
 
 .board {
   border: 1px solid black;
-  width: 400px;
-  height: 400px;
+  width: 440px;
+  height: 440px;
   display: flex;
   flex-wrap: wrap;
   margin: auto;
@@ -54,6 +54,15 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 10px;
+}
+
+.cell-text {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
 }
 
 header {
@@ -79,4 +88,28 @@ footer {
   font-weight: bold;
   padding-right: 5px;
   padding-left: 5px;
+}
+
+.active {
+  background-color: aquamarine;
+}
+
+.active-not-fitting {
+  background-color: red;
+}
+
+.occupied {
+  background-color: green;
+}
+
+.active-occupied {
+  background-color: red;
+}
+
+.hit {
+  background-color: yellow;
+}
+
+.sunk {
+  background-color: #c34141;
 }
