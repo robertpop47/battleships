@@ -1,87 +1,93 @@
-import Cell from "./Cell";
-
-const cellOccupied = (board, row, col, ships, currentShip, rotated) => {
-  let occupied = false;
+const isOccupied = (grid, row, col, length, rotated) => {
+  let isTaken = false;
   if (rotated) {
-    if (row + ships[currentShip].length <= 11) {
-      for (let i = 0; i < ships[currentShip].length; i++) {
-        if (board[row + i][col].status === "occupied") {
-          occupied = true;
-        }
+    for (let i = 0; i < length; i++) {
+      if (grid[row + i][col].status === "occupied") {
+        isTaken = true;
       }
     }
   } else {
-    if (col + ships[currentShip].length <= 11) {
-      for (let i = 0; i < ships[currentShip].length; i++) {
-        if (board[row][col + i].status === "occupied") {
-          occupied = true;
-        }
+    for (let i = 0; i < length; i++) {
+      if (grid[row][col + i].status === "occupied") {
+        isTaken = true;
       }
     }
   }
-  return occupied;
+  return isTaken;
 };
 
-export const placeShip = ({ board, row, col, ships, currentShip, rotated }) => {
-  if (cellOccupied(board, row, col, ships, currentShip, rotated)) {
-    return null;
-  } else {
-    if (rotated) {
-      if (row + ships[currentShip].length <= 11) {
-        for (let i = 0; i < ships[currentShip].length; i++) {
-          board[row + i][col].status = "occupied";
-          board[row + i][col].type = "";
-          board[row + i][col].hover = false;
-          ships[currentShip].positions.push({ row: row + i, col, hit: false });
-        }
-        return {
-          board,
-          ships,
-        };
-      } else {
-      }
-    } else {
-      if (col + ships[currentShip].length <= 11) {
-        for (let i = 0; i < ships[currentShip].length; i++) {
-          board[row][col + i].status = "occupied";
-          board[row][col + i].type = "";
-          board[row][col + i].hover = false;
-          ships[currentShip].positions.push({ row, col: col + i, hit: false });
-        }
-        return {
-          board,
-          ships,
-        };
-      }
-    }
-  }
-  return null;
-};
-
-export const hoverUpdate = ({
-  board,
+export const placeYourShip = ({
+  grid,
   row,
   col,
+  length,
   ships,
   currentShip,
   rotated,
-  type,
 }) => {
-  const bool = type === "enter" ? true : false;
-  if (rotated) {
-    if (row + ships[currentShip].length <= 11) {
-      for (let i = 0; i < ships[currentShip].length; i++) {
-        board[row + i][col].hover = bool;
-      }
-    }
+  if (isOccupied(grid, row, col, length, rotated)) {
+    return null;
   } else {
-    if (col + ships[currentShip].length <= 11) {
-      for (let i = 0; i < ships[currentShip].length; i++) {
-        board[row][col + i].hover = bool;
+    if (rotated) {
+      for (let i = 0; i < length; i++) {
+        grid[row + i][col].status = "occupied";
+        grid[row + i][col].hover = false;
+        ships[currentShip].positions.push({ row: row + i, col, hit: false });
+      }
+    } else {
+      for (let i = 0; i < length; i++) {
+        grid[row][col + i].status = "occupied";
+        grid[row][col + i].hover = false;
+        ships[currentShip].positions.push({ row, col: col + i, hit: false });
       }
     }
+    return ships;
   }
-  return [...board];
+};
+
+export const placeEnemyShip = ({
+  grid,
+  row,
+  col,
+  length,
+  ships,
+  currentShip,
+  rotated,
+}) => {
+  if (isOccupied(grid, row, col, length, rotated)) {
+    return null;
+  } else {
+    if (rotated) {
+      for (let i = 0; i < length; i++) {
+        ships[currentShip].positions.push({ row: row + i, col, hit: false });
+      }
+    } else {
+      for (let i = 0; i < length; i++) {
+        ships[currentShip].positions.push({ row, col: col + i, hit: false });
+      }
+    }
+    return ships;
+  }
+};
+
+export const getShipCoords = ({ row, col, length, rotated }) => {
+  return Array(length)
+    .fill([row, col])
+    .map(([row, col], index) => {
+      if (rotated) {
+        if (row + length <= 10) {
+          return [row + index, col];
+        } else {
+          return [10 - length + index, col];
+        }
+      } else {
+        if (col + length <= 10) {
+          return [row, col + index];
+        } else {
+          return [row, 10 - length + index];
+        }
+      }
+    });
 };
 
 export const classUpdate = (cell) => {

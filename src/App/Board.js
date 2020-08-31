@@ -1,67 +1,52 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Cell from "./Cell";
-import { hoverUpdate, placeShip } from "./placeOnBoard";
-import { updateGrid, updateShip } from "./actions";
+import React from "react";
+import { useSelector } from "react-redux";
+import YourShips from "./YourShips";
+import YourGrid from "./YourGrid";
+import EnemyShips from "./EnemyShips";
+import EnemyGrid from "./EnemyGrid";
+import Numbers from "./BoardNumbers";
+import Letters from "./BoardLetters";
 
-export const Board = (props) => {
-  const dispatch = useDispatch();
-  const board = useSelector((state) => state.board);
-  const ships = useSelector((state) => state.shipList);
-  const currentShip = useSelector((state) => state.currentShip);
-  const [rotated, setRotated] = useState(false);
-  const handleHover = (row, col, type) => {
-    const hoverProperties = {
-      board: board.slice(),
-      row,
-      col,
-      ships,
-      currentShip,
-      type,
-      rotated,
-    };
-    if (currentShip < ships.length) {
-      dispatch(updateGrid(hoverUpdate(hoverProperties)));
-    } else {
-      alert("START");
-    }
-  };
-
-  const handleClick = (row, col) => {
-    const clickProperties = {
-      board: board.slice(),
-      row,
-      col,
-      ships,
-      currentShip,
-      rotated,
-    };
-
-    const gameUpdate = placeShip(clickProperties);
-    if (gameUpdate) {
-      dispatch(updateGrid(gameUpdate));
-      dispatch(updateShip(gameUpdate));
-    }
-  };
-
-  const handleRotate = () => {
-    setRotated(!rotated);
-  };
-
-  const cell = board.map((row, rowIndex) => {
-    return row.map((cell, cellIndex) => {
-      return (
-        <Cell
-          key={`${rowIndex}${cellIndex}`}
-          value={cell}
-          i={rowIndex}
-          j={cellIndex}
-          handleHover={handleHover}
-          handleClick={handleClick}
-          handleRotate={handleRotate}
-        />
-      );
-    });
-  });
-  return <div className="board">{cell}</div>;
+const Board = () => {
+  const startBoard = useSelector((state) => state.startBoard);
+  return (
+    <div>
+      {startBoard === true ? (
+        <div className="startBoard">
+          <div className="container2">
+            <YourShips />
+            <div className="boxBoard">
+              <Numbers />
+              <div style={{ display: "flex" }}>
+                <Letters />
+                <YourGrid />
+              </div>
+            </div>
+          </div>
+          <div className="container2">
+            <div className="boxBoard">
+              <Numbers />
+              <div style={{ display: "flex" }}>
+                <Letters />
+                <EnemyGrid />
+              </div>
+            </div>
+            <EnemyShips />
+          </div>
+        </div>
+      ) : (
+        <div className="container1">
+          <YourShips />
+          <div className="boxBoard">
+            <Numbers />
+            <div style={{ display: "flex" }}>
+              <Letters />
+              <YourGrid />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
+export default Board;

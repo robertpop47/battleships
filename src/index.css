@@ -3,62 +3,84 @@ body {
   margin: 0;
 }
 
-.container {
+#root {
   margin: auto;
   display: flex;
   flex-direction: column;
   width: 100%;
   background: #f8f8f8 0% 0% no-repeat padding-box;
-  opacity: 1;
 }
 
-#root {
+.container1 {
   display: flex;
-  width: 735px;
+  width: 570px;
+  margin-left: 325px;
+}
+
+.container2 {
+  display: flex;
+  width: 570px;
   margin: auto;
 }
 
-.ships {
+.yourShips {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-right: 20px;
+  margin-right: 35px;
+}
+.enemyShips {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 35px;
+}
+.startBoard {
+  display: flex;
+  width: 100%;
+}
+.boxBoard {
+  width: 435px;
+  height: 435px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 5px #00000012;
+  border-radius: 20px;
 }
 
 .grid {
-  width: 500px;
-  height: 500px;
-  display: flex;
-  justify-content: center;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  box-shadow: 0px 3px 5px #03030312;
-  border-radius: 20px;
-  opacity: 1;
-}
-
-.board {
-  border: 1px solid black;
-  width: 440px;
-  height: 440px;
+  width: 350px;
+  height: 350px;
   display: flex;
   flex-wrap: wrap;
   margin: auto;
 }
 
 .cell {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   box-sizing: border-box;
   border: 1px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 10px;
+}
+
+.numbers-row {
+  display: flex;
+}
+
+.letters-collumn {
+  display: flex;
+  flex-direction: column;
 }
 
 .cell-text {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -67,15 +89,18 @@ body {
 
 header {
   text-align: center;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
+
 footer {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   margin: auto;
-  width: 500px;
+  width: 480px;
+  margin-bottom: 20px;
 }
 
 .mouse {
@@ -90,16 +115,25 @@ footer {
   padding-left: 5px;
 }
 
-.active {
-  background-color: aquamarine;
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin: auto;
 }
 
-.active-not-fitting {
-  background-color: red;
+button {
+  margin: 25px;
+  width: 65px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.active {
+  background-color: rgb(185, 185, 185);
 }
 
 .occupied {
-  background-color: green;
+  background-color: rgb(11, 148, 56);
 }
 
 .active-occupied {

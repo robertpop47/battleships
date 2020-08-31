@@ -1,31 +1,64 @@
-export const MOUSE_ENTER = "MOUSE_ENTER";
-export const MOUSE_LEAVE = "MOUSE_LEAVE";
-export const UPDATE_GRID = "UPDATE_GRID";
-export const UPDATE_SHIP = "UPDATE_SHIP";
+export const UPDATE_ENEMY_SHIP = "UPDATE_ENEMY_SHIP";
+export const UPDATE_YOUR_SHIP = "UPDATE_YOUR_SHIP";
+export const SET_YOUR_SHIP = "SET_YOUR_SHIP";
+export const SET_ENEMY_SHIP = "SET_ENEMY_SHIP";
+export const REMOVE_YOUR_SHIP = "REMOVE_YOUR_SHIP";
+export const START_GAME = "START_GAME";
+export const RESET_GAME = "RESET_GAME";
+export const GAME_BOARD = "GAME_BOARD";
 
-export const updateGrid = (board) => {
+export const updateGrid = (grid) => {
   return {
     type: UPDATE_GRID,
-    board,
+    grid,
   };
 };
-export const updateShip = () => {
+export const startGame = () => {
   return {
-    type: UPDATE_SHIP,
+    type: START_GAME,
   };
 };
-export const mouseEnter = (cellIndex) => {
-  cellIndex = parseInt(cellIndex);
+export const boardGame = () => {
   return {
-    type: MOUSE_ENTER,
-    coordinates: [parseInt(cellIndex / 10), cellIndex % 10],
+    type: GAME_BOARD,
   };
 };
-
-export const mouseLeave = (cellIndex) => {
-  cellIndex = parseInt(cellIndex);
+export const resetGame = () => {
   return {
-    type: MOUSE_LEAVE,
-    coordinates: [parseInt(cellIndex / 10), cellIndex % 10],
+    type: RESET_GAME,
+  };
+};
+export const updateEnemyShip = () => {
+  return {
+    type: UPDATE_ENEMY_SHIP,
+  };
+};
+export const updateYourShip = () => {
+  return {
+    type: UPDATE_YOUR_SHIP,
+  };
+};
+export const setYourShip = (newCoordinates) => {
+  return {
+    type: SET_YOUR_SHIP,
+    payload: {
+      newCoordinates,
+    },
+  };
+};
+export const setEnemyShip = (newCoordinates) => {
+  return {
+    type: SET_ENEMY_SHIP,
+    payload: {
+      newCoordinates,
+    },
+  };
+};
+export const removeYourShip = (shipCoordinates) => {
+  return {
+    type: REMOVE_YOUR_SHIP,
+    payload: {
+      shipCoordinates,
+    },
   };
 };
