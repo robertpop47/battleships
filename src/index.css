@@ -69,6 +69,17 @@ body {
   align-items: center;
 }
 
+/*
+
+multiple class selector
+
+.cell.active {
+  color: blue;
+}
+.cell.active.sunk {
+  color: green;
+}*/
+
 .numbers-row {
   display: flex;
 }

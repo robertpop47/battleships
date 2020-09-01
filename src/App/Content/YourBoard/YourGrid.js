@@ -1,18 +1,18 @@
 import React, { useState, useRef } from "react";
 import YourCell from "./YourCell";
 import { useSelector, useDispatch } from "react-redux";
-import { placeYourShip, getShipCoords } from "./placeOnBoard";
+import { placeYourShip, getShipCoords } from "../../utils/placeOnBoard";
 import {
   updateYourShip,
   removeYourShip,
   setYourShip,
   startGame,
-} from "./actions";
+} from "../../../redux/actions";
 
 const YourGrid = () => {
   const dispatch = useDispatch();
   const grid = useSelector((state) => state.yourGameBoard);
-  const start = useSelector((state) => state.start);
+  const start = useSelector((state) => state.startGame);
   const ships = useSelector((state) => state.yourShips);
   const currentShip = useSelector((state) => state.yourCurrentShip);
   const [rotated, setRotated] = useState(false);
@@ -34,7 +34,7 @@ const YourGrid = () => {
     }
   };
 
-  const handleClick = (row, col) => {
+  const handleClick = (row, col) => () => {
     const data = {
       grid,
       row,
@@ -68,7 +68,7 @@ const YourGrid = () => {
           j={cellIndex}
           handleRotate={handleRotate}
           handleHover={handleHover}
-          handleClick={handleClick}
+          handleClick={handleClick(rowIndex, cellIndex)}
         />
       );
     });

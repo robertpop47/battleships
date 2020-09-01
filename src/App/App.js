@@ -1,17 +1,16 @@
 import React from "react";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
-import battleship from "./reducers";
-import Footer from "./Footer";
+
+import store from "../redux/stores";
 import Header from "./Header";
-import Board from "./Board";
-import store from "./stores";
+import Content from "./Content";
+import Footer from "./Footer";
 
 const App = () => {
   return (
     <Provider store={store}>
       <Header />
-      <Board />
+      <Content />
       <Footer />
     </Provider>
   );

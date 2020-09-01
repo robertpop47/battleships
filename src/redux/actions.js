@@ -5,7 +5,7 @@ export const SET_ENEMY_SHIP = "SET_ENEMY_SHIP";
 export const REMOVE_YOUR_SHIP = "REMOVE_YOUR_SHIP";
 export const START_GAME = "START_GAME";
 export const RESET_GAME = "RESET_GAME";
-export const GAME_BOARD = "GAME_BOARD";
+export const START_BOARD = "START_BOARD";
 
 export const updateGrid = (grid) => {
   return {
@@ -18,9 +18,9 @@ export const startGame = () => {
     type: START_GAME,
   };
 };
-export const boardGame = () => {
+export const startBoard = () => {
   return {
-    type: GAME_BOARD,
+    type: START_BOARD,
   };
 };
 export const resetGame = () => {

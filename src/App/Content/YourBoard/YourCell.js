@@ -1,10 +1,19 @@
 import React from "react";
-import { classUpdate } from "./placeOnBoard";
+import clsx from "clsx";
+import { classUpdate } from "../../utils/placeOnBoard";
 
 const YourCell = ({ value, i, j, handleRotate, handleHover, handleClick }) => {
   return (
     <div
-      className={classUpdate(value)}
+      className={clsx({
+        cell: true,
+        active: value.hover,
+        activeOcupied: value.status === "occupied" && value.hover,
+        occupied: value.status === "occupied",
+        hit: value.status === "hit",
+        sunk: value.status === "sunk",
+        ///classes setters from placeOnBoard
+      })}
       onMouseEnter={() => handleHover(i, j, "enter")}
       onMouseLeave={() => handleHover(i, j, "leave")}
       onContextMenu={(e) => {
@@ -14,11 +23,14 @@ const YourCell = ({ value, i, j, handleRotate, handleHover, handleClick }) => {
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
-        handleClick(i, j);
+        handleClick();
       }}
     >
-      {value.type}
+      {
+        //value.type}
+      }
     </div>
   );
 };
+
 export default YourCell;

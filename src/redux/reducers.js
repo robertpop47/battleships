@@ -7,8 +7,9 @@ import {
   SET_YOUR_SHIP,
   START_GAME,
   RESET_GAME,
-  GAME_BOARD,
+  START_BOARD,
 } from "./actions";
+import { placeRandomEnemyShips } from "../App/utils/placeOnBoard";
 
 const initialState = {
   yourShipList: [
@@ -89,7 +90,9 @@ const initialState = {
   showGameBoard: false,
 };
 
-const start = (state = initialState.showStartGame, action) => {
+// placeRandomEnemyShips();
+
+const startGame = (state = initialState.showStartGame, action) => {
   if (action.type === START_GAME) {
     state = true;
   }
@@ -100,7 +103,7 @@ const start = (state = initialState.showStartGame, action) => {
 };
 
 const startBoard = (state = initialState.showGameBoard, action) => {
-  if (action.type === GAME_BOARD) {
+  if (action.type === START_BOARD) {
     state = true;
   }
   if (action.type === RESET_GAME) {
@@ -179,7 +182,7 @@ const battleship = combineReducers({
   enemyGameBoard,
   yourCurrentShip,
   enemyCurrentShip,
-  start,
+  startGame,
   startBoard,
 });
 export default battleship;
