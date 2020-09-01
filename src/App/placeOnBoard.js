@@ -45,30 +45,30 @@ export const placeYourShip = ({
   }
 };
 
-export const placeEnemyShip = ({
-  grid,
-  row,
-  col,
-  length,
-  ships,
-  currentShip,
-  rotated,
-}) => {
-  if (isOccupied(grid, row, col, length, rotated)) {
-    return null;
-  } else {
-    if (rotated) {
-      for (let i = 0; i < length; i++) {
-        ships[currentShip].positions.push({ row: row + i, col, hit: false });
-      }
-    } else {
-      for (let i = 0; i < length; i++) {
-        ships[currentShip].positions.push({ row, col: col + i, hit: false });
-      }
-    }
-    return ships;
-  }
-};
+// export const placeEnemyShip = ({
+//   grid,
+//   row,
+//   col,
+//   length,
+//   ships,
+//   currentShip,
+//   rotated,
+// }) => {
+//   if (isOccupied(grid, row, col, length, rotated)) {
+//     return null;
+//   } else {
+//     if (rotated) {
+//       for (let i = 0; i < length; i++) {
+//         ships[currentShip].positions.push({ row: row + i, col, hit: false });
+//       }
+//     } else {
+//       for (let i = 0; i < length; i++) {
+//         ships[currentShip].positions.push({ row, col: col + i, hit: false });
+//       }
+//     }
+//     return ships;
+//   }
+// };
 
 export const getShipCoords = ({ row, col, length, rotated }) => {
   return Array(length)

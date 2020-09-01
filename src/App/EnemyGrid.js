@@ -16,29 +16,29 @@ const EnemyGrid = () => {
     return Math.floor(Math.random() * 10);
   };
 
-  const randomShips = () => {
-    setRotated(Math.floor(Math.random() * 2) === 0 ? false : true);
-    if (currentShip < ships.length) {
-      const row = randomNumber();
-      const col = randomNumber();
-      const length = ships[currentShip].size;
-      const shipCoords = getShipCoords({ row, col, length, rotated });
-      const data = {
-        grid,
-        row: shipCoords[0][0],
-        col: shipCoords[0][1],
-        length,
-        ships,
-        currentShip,
-        rotated,
-      };
-      const gameUpdate = placeEnemyShip(data);
-      if (gameUpdate) {
-        dispatch(updateEnemyShip(gameUpdate));
-        dispatch(setEnemyShip(shipCoords));
-      }
-    }
-  };
+  // const randomShips = () => {
+  //   setRotated(Math.floor(Math.random() * 2) === 0 ? false : true);
+  //   if (currentShip < ships.length) {
+  //     const row = randomNumber();
+  //     const col = randomNumber();
+  //     const length = ships[currentShip].size;
+  //     const shipCoords = getShipCoords({ row, col, length, rotated });
+  //     const data = {
+  //       grid,
+  //       row: shipCoords[0][0],
+  //       col: shipCoords[0][1],
+  //       length,
+  //       ships,
+  //       currentShip,
+  //       rotated,
+  //     };
+  //     const gameUpdate = placeEnemyShip(data);
+  //     if (gameUpdate) {
+  //       dispatch(updateEnemyShip(gameUpdate));
+  //       dispatch(setEnemyShip(shipCoords));
+  //     }
+  //   }
+  // };
   // /*const handleClick = (row, col) => {};
   // handleClick={handleClick}*/
   // if (currentShip < ships.length) {
