@@ -6,6 +6,11 @@ export const REMOVE_YOUR_SHIP = "REMOVE_YOUR_SHIP";
 export const START_GAME = "START_GAME";
 export const RESET_GAME = "RESET_GAME";
 export const START_BOARD = "START_BOARD";
+export const YOUR_MOVE_HIT = "YOUR_MOVE_HIT";
+export const YOUR_MOVE_MISS = "YOUR_MOVE_MISS";
+export const SET_TURN = "SET_TURN";
+export const ENEMY_MOVE_HIT = "ENEMY_MOVE_HIT";
+export const ENEMY_MOVE_MISS = "ENEMY_MOVE_MISS";
 
 export const updateGrid = (grid) => {
   return {
@@ -59,6 +64,47 @@ export const removeYourShip = (shipCoordinates) => {
     type: REMOVE_YOUR_SHIP,
     payload: {
       shipCoordinates,
+    },
+  };
+};
+export const yourMoveHit = (x, y) => {
+  return {
+    type: YOUR_MOVE_HIT,
+    payload: {
+      x,
+      y,
+    },
+  };
+};
+export const yourMoveMiss = (x, y) => {
+  return {
+    type: YOUR_MOVE_MISS,
+    payload: {
+      x,
+      y,
+    },
+  };
+};
+export const setTurn = () => {
+  return {
+    type: SET_TURN,
+  };
+};
+export const enemyMoveHit = (x, y) => {
+  return {
+    type: ENEMY_MOVE_HIT,
+    payload: {
+      x,
+      y,
+    },
+  };
+};
+export const enemyMoveMiss = (x, y) => {
+  return {
+    type: ENEMY_MOVE_MISS,
+    payload: {
+      x,
+      y,
     },
   };
 };

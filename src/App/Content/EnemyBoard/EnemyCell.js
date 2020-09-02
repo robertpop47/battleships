@@ -12,15 +12,18 @@ const EnemyCell = ({ value, i, j, handleClick }) => {
         // occupied: value.status === "occupied",
         hit: value.status === "hit",
         sunk: value.status === "sunk",
+        miss: value.status === "miss",
         ///classes setters from placeOnBoard
       })} /*classUpdate(value)*/
-      //   onClick={(e) => {
-      //     e.stopPropagation();
-      //     e.preventDefault();
-      //     handleClick(i, j);
-      //   }}
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        handleClick();
+      }}
     >
-      {value.type}
+      {
+        // value.type
+      }
     </div>
   );
 };
