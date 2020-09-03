@@ -1,20 +1,27 @@
 import React, { useState, useRef } from "react";
 import YourCell from "./YourCell";
 import { useSelector, useDispatch } from "react-redux";
-import { placeYourShip, getShipCoords } from "../../utils/placeOnBoard";
+import {
+  placeYourShip,
+  getShipCoords,
+  enemyMove,
+} from "../../utils/placeOnBoard";
 import {
   updateYourShip,
   removeYourShip,
   setYourShip,
   startGame,
+  lastEnemyMove,
 } from "../../../redux/actions";
 
 const YourGrid = () => {
   const dispatch = useDispatch();
+
   const grid = useSelector((state) => state.yourGameBoard);
   const start = useSelector((state) => state.startGame);
   const ships = useSelector((state) => state.yourShips);
   const currentShip = useSelector((state) => state.yourCurrentShip);
+
   const [rotated, setRotated] = useState(false);
   const lastShipCoords = useRef(null);
   const handleHover = (row, col, type) => {

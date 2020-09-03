@@ -1,21 +1,56 @@
 import React from "react";
 import EnemyCell from "./EnemyCell";
 import { useSelector, useDispatch } from "react-redux";
-import { yourMoveHit, yourMoveMiss, setTurn } from "../../../redux/actions";
+import {
+  yourMoveHit,
+  yourMoveMiss,
+  setTurn,
+  lastEnemyMove,
+} from "../../../redux/actions";
+import { enemyMove } from "../../utils/placeOnBoard";
 
 const EnemyGrid = () => {
   const dispatch = useDispatch();
   const grid = useSelector((state) => state.enemyGameBoard);
+  const yourGrid = useSelector((state) => state.yourGameBoard);
   const yourTurn = useSelector((state) => state.turn);
+  const {
+    lastEnemyMove: lastEnemyMoveCoords,
+    lastEnemyMoveDirection: enemyDirection,
+  } = useSelector((state) => state.enemyMove);
+  // const { lastEnemyMoveCoords, enemyDirection } = lastEnemyMoveData;
+  const [coords, direction] = enemyMove(lastEnemyMoveCoords, enemyDirection);
+
+  // const enemyTurn = () => () => {
+  //   if (!yourTurn) {
+  //     dispatch(lastEnemyMove(coords, direction));
+  //     if (yourGrid[row][col].status === "occupied") {
+  //       dispatch(yourMoveHit(row, col));
+  //     } else {
+  //       dispatch(yourMoveMiss(row, col));
+  //     }
+  //     dispatch(setTurn(yourTurn));
+  //   }
+  // };
 
   const handleClick = (row, col) => () => {
+    const row = coords[0];
+    const col = coords[1];
+
     if (yourTurn) {
       if (grid[row][col].status === "occupied") {
         dispatch(yourMoveHit(row, col));
       } else {
         dispatch(yourMoveMiss(row, col));
       }
-      // dispatch(setTurn(yourTurn));
+      dispatch(setTurn(yourTurn));
+      dispatch(lastEnemyMove(coords, direction));
+      if (yourGrid[row][col].status === "occupied") {
+        dispatch(yourMoveHit(row, col));
+      } else {
+        dispatch(yourMoveMiss(row, col));
+      }
+      dispatch(setTurn(yourTurn));
     }
   };
 

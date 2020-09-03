@@ -11,6 +11,7 @@ export const YOUR_MOVE_MISS = "YOUR_MOVE_MISS";
 export const SET_TURN = "SET_TURN";
 export const ENEMY_MOVE_HIT = "ENEMY_MOVE_HIT";
 export const ENEMY_MOVE_MISS = "ENEMY_MOVE_MISS";
+export const ENEMY_MOVE = "ENEMY_MOVE";
 
 export const updateGrid = (grid) => {
   return {
@@ -105,6 +106,15 @@ export const enemyMoveMiss = (x, y) => {
     payload: {
       x,
       y,
+    },
+  };
+};
+export const lastEnemyMove = (coords, direction) => {
+  return {
+    type: ENEMY_MOVE,
+    payload: {
+      coords,
+      direction,
     },
   };
 };

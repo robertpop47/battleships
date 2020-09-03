@@ -2,7 +2,15 @@ import React from "react";
 import clsx from "clsx";
 import { classUpdate } from "../../utils/placeOnBoard";
 
-const YourCell = ({ value, i, j, handleRotate, handleHover, handleClick }) => {
+const YourCell = ({
+  value,
+  i,
+  j,
+  handleRotate,
+  handleHover,
+  handleClick,
+  enemyTurn,
+}) => {
   return (
     <div
       className={clsx({
@@ -25,11 +33,7 @@ const YourCell = ({ value, i, j, handleRotate, handleHover, handleClick }) => {
         e.preventDefault();
         handleClick();
       }}
-    >
-      {
-        //value.type}
-      }
-    </div>
+    ></div>
   );
 };
 

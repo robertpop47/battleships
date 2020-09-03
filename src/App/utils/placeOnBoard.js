@@ -134,6 +134,223 @@ export const placeRandomEnemyShips = () => {
   }
 };
 
+export const isSunk = (ship, grid) => {
+  // debugger;
+  for (let pos of ship.positions) {
+    const x = pos.row;
+    const y = pos.col;
+    if (grid[x][y].status !== "hit") {
+      return false;
+    }
+  }
+  return true;
+};
+
+export const enemyMove = (lastMove, direction) => {
+  // const dispatch = useDispatch();
+  const grid = useSelector((state) => state.yourGameBoard);
+  const x = lastMove[0];
+  const y = lastMove[1];
+
+  let nextDirection = direction;
+
+  const tryGoNorth = (x, y) => {
+    let i = x;
+    let j = y;
+    while (i >= 0) {
+      if (grid[i][j] !== "hit") {
+        if (grid[i][j] === "empty") {
+          break;
+        }
+      }
+      i--;
+    }
+    return [i, j];
+  };
+  const tryGoSouth = (x, y) => {
+    let i = x;
+    let j = y;
+    while (i < 9) {
+      if (grid[i][j] !== "hit") {
+        if (grid[i][j] === "empty") {
+          break;
+        }
+      }
+      i++;
+    }
+    return [i, j];
+  };
+  const tryGoWest = (x, y) => {
+    let i = x;
+    let j = y;
+    while (j >= 0) {
+      if (grid[i][j] !== "hit") {
+        if (grid[i][j] === "empty") {
+          break;
+        }
+      }
+      j--;
+    }
+    return [i, j];
+  };
+  const tryGoEast = (x, y) => {
+    let i = x;
+    let j = y;
+    while (j < 9) {
+      if (grid[i][j] !== "hit") {
+        if (grid[i][j] === "empty") {
+          break;
+        }
+      }
+      j++;
+    }
+    return [i, j];
+  };
+
+  const nextRandomMove = () => {
+    let found = false;
+    while (!found) {
+      const x = Math.floor(Math.random() * 10);
+      const y = Math.floor(Math.random() * 10);
+
+      if (grid[x][y].status === ("empty" || "occupied")) {
+        found = true;
+      }
+    }
+    return [x, y];
+  };
+
+  if (grid[x][y].status === "hit") {
+    let i = x;
+    let j = y;
+    let counter = 0;
+    while (counter < 2) {
+      if (nextDirection === "N") {
+        const nextCoords = tryGoNorth(i, j);
+        i = nextCoords[0];
+        j = nextCoords[1];
+        if (i === -1) {
+          nextDirection = "S";
+        } else {
+          return [nextCoords, nextDirection];
+        }
+      }
+      if (nextDirection === "S") {
+        const nextCoords = tryGoSouth(i, j);
+        i = nextCoords[0];
+        j = nextCoords[1];
+        if (i === 10) {
+          nextDirection = "W";
+        } else {
+          return [nextCoords, nextDirection];
+        }
+      }
+      if (nextDirection === "W") {
+        const nextCoords = tryGoSouth();
+        i = nextCoords[0];
+        j = nextCoords[1];
+        if (j === -1) {
+          nextDirection = "E";
+        } else {
+          return [nextCoords, nextDirection];
+        }
+      }
+      if (nextDirection === "E") {
+        const nextCoords = tryGoSouth();
+        i = nextCoords[0];
+        j = nextCoords[1];
+        if (j === 10) {
+          nextDirection = "N";
+        } else {
+          return [nextCoords, nextDirection];
+        }
+      }
+
+      counter++;
+    }
+
+    const nextCoords = nextRandomMove();
+    const range = Math.floor(Math.random() * 40);
+    if (range === 0) {
+      nextDirection = "N";
+    }
+    if (range === 1) {
+      nextDirection = "S";
+    }
+    if (range === 2) {
+      nextDirection = "W";
+    }
+    if (range === 3) {
+      nextDirection = "E";
+    }
+    return [nextCoords, nextDirection];
+  } else {
+    let i = x;
+    let j = y;
+    let counter = 0;
+    while (counter < 2) {
+      if (nextDirection === "N") {
+        const nextCoords = tryGoSouth(i, j);
+        i = nextCoords[0];
+        j = nextCoords[1];
+        if (i === -1) {
+          nextDirection = "S";
+        } else {
+          return [nextCoords, nextDirection];
+        }
+      }
+      if (nextDirection === "S") {
+        const nextCoords = tryGoNorth(i, j);
+        i = nextCoords[0];
+        j = nextCoords[1];
+        if (i === -1) {
+          nextDirection = "N";
+        } else {
+          return [nextCoords, nextDirection];
+        }
+      }
+      if (nextDirection === "W") {
+        const nextCoords = tryGoEast(i, j);
+        i = nextCoords[0];
+        j = nextCoords[1];
+        if (i === -1) {
+          nextDirection = "E";
+        } else {
+          return [nextCoords, nextDirection];
+        }
+      }
+      if (nextDirection === "E") {
+        const nextCoords = tryGoWest(i, j);
+        i = nextCoords[0];
+        j = nextCoords[1];
+        if (i === -1) {
+          nextDirection = "W";
+        } else {
+          return [nextCoords, nextDirection];
+        }
+      }
+
+      counter++;
+    }
+
+    const nextCoords = nextRandomMove();
+    const range = Math.floor(Math.random() * 4);
+    if (range === 0) {
+      nextDirection = "N";
+    }
+    if (range === 1) {
+      nextDirection = "S";
+    }
+    if (range === 2) {
+      nextDirection = "W";
+    }
+    if (range === 3) {
+      nextDirection = "E";
+    }
+    return [nextCoords, nextDirection];
+  }
+};
+
 // export const classUpdate = (cell) => {
 //   let classes = "cell ";
 //   if (cell.status === "occupied" && cell.hover) {
