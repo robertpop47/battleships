@@ -52,7 +52,7 @@ const EnemyGrid = () => {
       const i = data[0][0];
       const j = data[0][1];
 
-      dispatch(lastEnemyMove([i, j], direction));
+      dispatch(lastEnemyMove([i, j], data[1]));
       if (
         yourGrid[i][j].status === "occupied" ||
         yourGrid[i][j].status === "hit"
