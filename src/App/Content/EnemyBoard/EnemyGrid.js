@@ -34,8 +34,8 @@ const EnemyGrid = () => {
   // };
 
   const handleClick = (row, col) => () => {
-    const row = coords[0];
-    const col = coords[1];
+    const i = coords[0];
+    const j = coords[1];
 
     if (yourTurn) {
       if (grid[row][col].status === "occupied") {
@@ -45,10 +45,10 @@ const EnemyGrid = () => {
       }
       dispatch(setTurn(yourTurn));
       dispatch(lastEnemyMove(coords, direction));
-      if (yourGrid[row][col].status === "occupied") {
-        dispatch(yourMoveHit(row, col));
+      if (yourGrid[i][j].status === "occupied") {
+        dispatch(yourMoveHit(i, j));
       } else {
-        dispatch(yourMoveMiss(row, col));
+        dispatch(yourMoveMiss(i, j));
       }
       dispatch(setTurn(yourTurn));
     }
