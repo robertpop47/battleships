@@ -106,7 +106,7 @@ const initialState = {
   yourTurn: true,
   enemyMove: {
     lastEnemyMove: [0, 0],
-    lastEnemyMoveDirection: "E",
+    lastEnemyMoveDirection: "N",
   },
 };
 
@@ -253,7 +253,7 @@ const turn = (state = initialState.yourTurn, action) => {
 
 const enemyMove = (state = initialState.enemyMove, action) => {
   if (action.type === ENEMY_MOVE) {
-    const { enemyMove, enemyMoveDirection } = action.payload;
+    const { coords: enemyMove, direction: enemyMoveDirection } = action.payload;
     return {
       // ...state,
       lastEnemyMove: enemyMove,

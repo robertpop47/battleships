@@ -19,6 +19,7 @@ const YourCell = ({
         activeOcupied: value.status === "occupied" && value.hover,
         occupied: value.status === "occupied",
         hit: value.status === "hit",
+        miss: value.status === "miss",
         sunk: value.status === "sunk",
         ///classes setters from placeOnBoard
       })}

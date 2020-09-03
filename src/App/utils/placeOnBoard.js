@@ -146,79 +146,84 @@ export const isSunk = (ship, grid) => {
   return true;
 };
 
-export const enemyMove = (lastMove, direction) => {
+const tryGoNorth = (x, y, grid) => {
+  // const grid = useSelector((state) => state.yourGameBoard);
+  let i = x;
+  let j = y;
+  while (i >= 0) {
+    if (grid[i][j] !== "hit") {
+      if (grid[i][j] === "empty" || "occupied") {
+        break;
+      }
+    }
+    i--;
+  }
+  return [i, j];
+};
+const tryGoSouth = (x, y, grid) => {
+  // const grid = useSelector((state) => state.yourGameBoard);
+  let i = x;
+  let j = y;
+  while (i < 9) {
+    if (grid[i][j] !== "hit") {
+      if (grid[i][j] === "empty" || "occupied") {
+        break;
+      }
+    }
+    i++;
+  }
+  return [i, j];
+};
+const tryGoWest = (x, y, grid) => {
+  // const grid = useSelector((state) => state.yourGameBoard);
+  let i = x;
+  let j = y;
+  while (j >= 0) {
+    if (grid[i][j] !== "hit") {
+      if (grid[i][j] === "empty" || "occupied") {
+        break;
+      }
+    }
+    j--;
+  }
+  return [i, j];
+};
+const tryGoEast = (x, y, grid) => {
+  // const grid = useSelector((state) => state.yourGameBoard);
+  let i = x;
+  let j = y;
+  while (j < 9) {
+    if (grid[i][j] !== "hit") {
+      if (grid[i][j] === "empty" || "occupied") {
+        break;
+      }
+    }
+    j++;
+  }
+  return [i, j];
+};
+
+const nextRandomMove = (grid) => {
+  // const grid = useSelector((state) => state.yourGameBoard);
+  let found = false;
+  while (!found) {
+    const x = Math.floor(Math.random() * 10);
+    const y = Math.floor(Math.random() * 10);
+
+    if (grid[x][y].status === "empty" || grid[x][y].status === "occupied") {
+      found = true;
+    }
+  }
+  return [x, y];
+};
+
+export const enemyMove = (lastMove, direction, grid) => {
   // const dispatch = useDispatch();
-  const grid = useSelector((state) => state.yourGameBoard);
+  // const grid = useSelector((state) => state.yourGameBoard);
   const x = lastMove[0];
   const y = lastMove[1];
 
   let nextDirection = direction;
-
-  const tryGoNorth = (x, y) => {
-    let i = x;
-    let j = y;
-    while (i >= 0) {
-      if (grid[i][j] !== "hit") {
-        if (grid[i][j] === "empty") {
-          break;
-        }
-      }
-      i--;
-    }
-    return [i, j];
-  };
-  const tryGoSouth = (x, y) => {
-    let i = x;
-    let j = y;
-    while (i < 9) {
-      if (grid[i][j] !== "hit") {
-        if (grid[i][j] === "empty") {
-          break;
-        }
-      }
-      i++;
-    }
-    return [i, j];
-  };
-  const tryGoWest = (x, y) => {
-    let i = x;
-    let j = y;
-    while (j >= 0) {
-      if (grid[i][j] !== "hit") {
-        if (grid[i][j] === "empty") {
-          break;
-        }
-      }
-      j--;
-    }
-    return [i, j];
-  };
-  const tryGoEast = (x, y) => {
-    let i = x;
-    let j = y;
-    while (j < 9) {
-      if (grid[i][j] !== "hit") {
-        if (grid[i][j] === "empty") {
-          break;
-        }
-      }
-      j++;
-    }
-    return [i, j];
-  };
-
-  const nextRandomMove = () => {
-    let found = false;
-    while (!found) {
-      const x = Math.floor(Math.random() * 10);
-      const y = Math.floor(Math.random() * 10);
-
-      if (grid[x][y].status === ("empty" || "occupied")) {
-        found = true;
-      }
-    }
-    return [x, y];
-  };
 
   if (grid[x][y].status === "hit") {
     let i = x;
@@ -226,7 +231,7 @@ export const enemyMove = (lastMove, direction) => {
     let counter = 0;
     while (counter < 2) {
       if (nextDirection === "N") {
-        const nextCoords = tryGoNorth(i, j);
+        const nextCoords = tryGoNorth(i, j, grid);
         i = nextCoords[0];
         j = nextCoords[1];
         if (i === -1) {
@@ -236,7 +241,7 @@ export const enemyMove = (lastMove, direction) => {
         }
       }
       if (nextDirection === "S") {
-        const nextCoords = tryGoSouth(i, j);
+        const nextCoords = tryGoSouth(i, j, grid);
         i = nextCoords[0];
         j = nextCoords[1];
         if (i === 10) {
@@ -246,7 +251,7 @@ export const enemyMove = (lastMove, direction) => {
         }
       }
       if (nextDirection === "W") {
-        const nextCoords = tryGoSouth();
+        const nextCoords = tryGoWest(i, j, grid);
         i = nextCoords[0];
         j = nextCoords[1];
         if (j === -1) {
@@ -256,11 +261,13 @@ export const enemyMove = (lastMove, direction) => {
         }
       }
       if (nextDirection === "E") {
-        const nextCoords = tryGoSouth();
+        const nextCoords = tryGoEast(i, j, grid);
         i = nextCoords[0];
         j = nextCoords[1];
         if (j === 10) {
           nextDirection = "N";
+          const nextCoords = nextRandomMove(grid);
+          return [nextCoords, nextDirection];
         } else {
           return [nextCoords, nextDirection];
         }
@@ -269,8 +276,8 @@ export const enemyMove = (lastMove, direction) => {
       counter++;
     }
 
-    const nextCoords = nextRandomMove();
-    const range = Math.floor(Math.random() * 40);
+    const nextCoords = nextRandomMove(grid);
+    const range = Math.floor(Math.random() * 4);
     if (range === 0) {
       nextDirection = "N";
     }
@@ -290,7 +297,7 @@ export const enemyMove = (lastMove, direction) => {
     let counter = 0;
     while (counter < 2) {
       if (nextDirection === "N") {
-        const nextCoords = tryGoSouth(i, j);
+        const nextCoords = tryGoSouth(i, j, grid);
         i = nextCoords[0];
         j = nextCoords[1];
         if (i === -1) {
@@ -300,7 +307,7 @@ export const enemyMove = (lastMove, direction) => {
         }
       }
       if (nextDirection === "S") {
-        const nextCoords = tryGoNorth(i, j);
+        const nextCoords = tryGoNorth(i, j, grid);
         i = nextCoords[0];
         j = nextCoords[1];
         if (i === -1) {
@@ -310,7 +317,7 @@ export const enemyMove = (lastMove, direction) => {
         }
       }
       if (nextDirection === "W") {
-        const nextCoords = tryGoEast(i, j);
+        const nextCoords = tryGoEast(i, j, grid);
         i = nextCoords[0];
         j = nextCoords[1];
         if (i === -1) {
@@ -320,7 +327,7 @@ export const enemyMove = (lastMove, direction) => {
         }
       }
       if (nextDirection === "E") {
-        const nextCoords = tryGoWest(i, j);
+        const nextCoords = tryGoWest(i, j, grid);
         i = nextCoords[0];
         j = nextCoords[1];
         if (i === -1) {
@@ -333,7 +340,7 @@ export const enemyMove = (lastMove, direction) => {
       counter++;
     }
 
-    const nextCoords = nextRandomMove();
+    const nextCoords = nextRandomMove(grid);
     const range = Math.floor(Math.random() * 4);
     if (range === 0) {
       nextDirection = "N";
