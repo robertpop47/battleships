@@ -2,6 +2,10 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateEnemyShip, setEnemyShip } from "../../redux/actions";
 
+export const refreshPage = () => {
+  window.location.reload(false);
+};
+
 const isOccupied = (grid, row, col, length, rotated) => {
   let isTaken = false;
   if (rotated) {

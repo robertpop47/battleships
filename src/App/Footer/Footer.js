@@ -1,15 +1,13 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { resetGame, startBoard } from "../../redux/actions";
+import { refreshPage } from "../utils/placeOnBoard";
 
 const Footer = () => {
   const START = startBoard;
   const startGame = useSelector((state) => state.startGame);
   const boardStart = useSelector((state) => state.startBoard);
   const dispatch = useDispatch();
-  const refreshPage = () => {
-    window.location.reload(false);
-  };
 
   if (startGame === true && boardStart === true) {
     return null;
