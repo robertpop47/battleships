@@ -35,6 +35,7 @@ module.exports = {
   devServer: {
     hot: true,
     open: true,
+    // devtool: "cheap-module-eval-source-map",
     // writeToDisk: true,
   },
 };
