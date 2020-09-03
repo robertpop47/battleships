@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   yourMoveHit,
   yourMoveMiss,
+  enemyMoveHit,
+  enemyMoveMiss,
   setTurn,
   lastEnemyMove,
 } from "../../../redux/actions";
@@ -19,7 +21,7 @@ const EnemyGrid = () => {
     lastEnemyMoveDirection: enemyDirection,
   } = useSelector((state) => state.enemyMove);
   // const { lastEnemyMoveCoords, enemyDirection } = lastEnemyMoveData;
-  const [coords, direction] = enemyMove(lastEnemyMoveCoords, enemyDirection);
+  const data = enemyMove(lastEnemyMoveCoords, enemyDirection);
 
   // const enemyTurn = () => () => {
   //   if (!yourTurn) {
@@ -34,8 +36,9 @@ const EnemyGrid = () => {
   // };
 
   const handleClick = (row, col) => () => {
-    const i = coords[0];
-    const j = coords[1];
+    const i = data[0][0];
+    const j = data[0][1];
+    const direction = data[1];
 
     if (yourTurn) {
       if (grid[row][col].status === "occupied") {
@@ -44,11 +47,11 @@ const EnemyGrid = () => {
         dispatch(yourMoveMiss(row, col));
       }
       dispatch(setTurn(yourTurn));
-      dispatch(lastEnemyMove(coords, direction));
+      dispatch(lastEnemyMove(data[0], direction));
       if (yourGrid[i][j].status === "occupied") {
-        dispatch(yourMoveHit(i, j));
+        dispatch(enemyMoveHit(i, j));
       } else {
-        dispatch(yourMoveMiss(i, j));
+        dispatch(enemyMoveMiss(i, j));
       }
       dispatch(setTurn(yourTurn));
     }

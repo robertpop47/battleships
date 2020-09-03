@@ -260,7 +260,7 @@ const enemyMove = (state = initialState.enemyMove, action) => {
       lastEnemyMoveDirection: enemyMoveDirection,
     };
   }
-  return state;
+  return { ...state };
 };
 
 const battleship = combineReducers({
