@@ -255,7 +255,7 @@ const enemyMove = (state = initialState.enemyMove, action) => {
   if (action.type === ENEMY_MOVE) {
     const { enemyMove, enemyMoveDirection } = action.payload;
     return {
-      ...state,
+      // ...state,
       lastEnemyMove: enemyMove,
       lastEnemyMoveDirection: enemyMoveDirection,
     };
