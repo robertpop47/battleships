@@ -7,9 +7,10 @@ const YourCell = ({
   i,
   j,
   handleRotate,
-  handleHover,
+  onMouseEnter,
+  onMouseLeave,
   handleClick,
-  enemyTurn,
+  // enemyTurn,
 }) => {
   return (
     <div
@@ -23,8 +24,8 @@ const YourCell = ({
         sunk: value.status === "sunk",
         ///classes setters from placeOnBoard
       })}
-      onMouseEnter={() => handleHover(i, j, "enter")}
-      onMouseLeave={() => handleHover(i, j, "leave")}
+      onMouseEnter={() => onMouseEnter(i, j)}
+      onMouseLeave={() => onMouseLeave(i, j)}
       onContextMenu={(e) => {
         e.preventDefault();
         handleRotate();

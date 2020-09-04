@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import {
-  UPDATE_YOUR_SHIP,
+  SELECT_YOUR_NEXT_SHIP,
   UPDATE_ENEMY_SHIP,
   REMOVE_YOUR_SHIP,
   SET_ENEMY_SHIP,
@@ -145,9 +145,10 @@ const enemyShips = (state = initialState.enemyShipList, action) => {
 };
 
 const yourCurrentShip = (state = initialState.yourCurrentShip, action) => {
-  if (action.type === UPDATE_YOUR_SHIP) {
-    return state + 1;
+  if (action.type === SELECT_YOUR_NEXT_SHIP) {
+    return state < initialState.yourShipList.length - 1 ? state + 1 : null;
   }
+
   // if (action.type === RESET_GAME) {
   //   return initialState.yourCurrentShip;
   // }
@@ -162,8 +163,9 @@ const enemyCurrentShip = (state = initialState.enemyCurrentShip, action) => {
 };
 
 const yourGameBoard = (state = initialState.yourGameBoard, action) => {
+  const newGameBoard = [...state].map((row) => [...row]);
+
   if (action.type === SET_YOUR_SHIP) {
-    const newGameBoard = [...state];
     const { newCoordinates } = action.payload;
     newCoordinates.forEach(([x, y]) => {
       newGameBoard[x][y] = { ...newGameBoard[x][y], hover: true };
@@ -171,7 +173,6 @@ const yourGameBoard = (state = initialState.yourGameBoard, action) => {
     return newGameBoard;
   }
   if (action.type === REMOVE_YOUR_SHIP) {
-    const newGameBoard = [...state];
     const { shipCoordinates } = action.payload;
     shipCoordinates.forEach(([x, y]) => {
       newGameBoard[x][y] = { ...newGameBoard[x][y], hover: false };
@@ -179,7 +180,6 @@ const yourGameBoard = (state = initialState.yourGameBoard, action) => {
     return newGameBoard;
   }
   if (action.type === ENEMY_MOVE_HIT) {
-    const newGameBoard = [...state];
     const { x, y } = action.payload;
     newGameBoard[x][y] = { ...newGameBoard[x][y], status: "hit" };
 
@@ -197,7 +197,6 @@ const yourGameBoard = (state = initialState.yourGameBoard, action) => {
     return newGameBoard;
   }
   if (action.type === ENEMY_MOVE_MISS) {
-    const newGameBoard = [...state];
     const { x, y } = action.payload;
     newGameBoard[x][y] = { ...newGameBoard[x][y], status: "miss" };
     return newGameBoard;
@@ -209,8 +208,9 @@ const yourGameBoard = (state = initialState.yourGameBoard, action) => {
 };
 
 const enemyGameBoard = (state = initialState.enemyGameBoard, action) => {
+  const newGameBoard = [...state].map((row) => [...row]);
+
   if (action.type === SET_ENEMY_SHIP) {
-    const newGameBoard = [...state];
     const { newCoordinates } = action.payload;
     newCoordinates.forEach(([x, y]) => {
       newGameBoard[x][y] = { ...newGameBoard[x][y], status: "occupied" };
@@ -218,7 +218,6 @@ const enemyGameBoard = (state = initialState.enemyGameBoard, action) => {
     return newGameBoard;
   }
   if (action.type === YOUR_MOVE_HIT) {
-    const newGameBoard = [...state];
     const { x, y } = action.payload;
     newGameBoard[x][y] = { ...newGameBoard[x][y], status: "hit" };
 
@@ -236,7 +235,6 @@ const enemyGameBoard = (state = initialState.enemyGameBoard, action) => {
     return newGameBoard;
   }
   if (action.type === YOUR_MOVE_MISS) {
-    const newGameBoard = [...state];
     const { x, y } = action.payload;
     newGameBoard[x][y] = { ...newGameBoard[x][y], status: "miss" };
     return newGameBoard;

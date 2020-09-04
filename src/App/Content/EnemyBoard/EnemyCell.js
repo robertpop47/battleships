@@ -9,7 +9,7 @@ const EnemyCell = ({ value, i, j, handleClick }) => {
         cell: true,
         active: value.hover,
         // activeOcupied: value.status === "occupied" && value.hover,
-        // occupied: value.status === "occupied",
+        occupied: value.status === "occupied",
         hit: value.status === "hit",
         sunk: value.status === "sunk",
         miss: value.status === "miss",

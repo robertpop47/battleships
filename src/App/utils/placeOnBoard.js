@@ -1,7 +1,3 @@
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { updateEnemyShip, setEnemyShip } from "../../redux/actions";
-
 export const refreshPage = () => {
   window.location.reload(false);
 };
@@ -96,46 +92,6 @@ export const getShipCoords = ({ row, col, length, rotated }) => {
         }
       }
     });
-};
-
-export const placeRandomEnemyShips = () => {
-  const dispatch = useDispatch();
-  const grid = useSelector((state) => state.enemyGameBoard);
-  const ships = useSelector((state) => state.enemyShips);
-  const currentShip = useSelector((state) => state.enemyCurrentShip);
-  const [rotated, setRotated] = useState(false);
-
-  const randomNum = () => {
-    return Math.floor(Math.random() * 10);
-  };
-
-  const randomShips = () => {
-    setRotated(Math.floor(Math.random() * 2) === 0 ? false : true);
-    if (currentShip < ships.length) {
-      const row = randomNum();
-      const col = randomNum();
-      const length = ships[currentShip].size;
-      const shipCoords = getShipCoords({ row, col, length, rotated });
-      const data = {
-        grid,
-        row: shipCoords[0][0],
-        col: shipCoords[0][1],
-        length,
-        ships,
-        currentShip,
-        rotated,
-      };
-      const gameUpdate = placeEnemyShip(data);
-      if (gameUpdate) {
-        dispatch(updateEnemyShip(gameUpdate));
-        dispatch(setEnemyShip(shipCoords));
-      }
-    }
-  };
-
-  if (currentShip < ships.length) {
-    randomShips();
-  }
 };
 
 export const isSunk = (ship, grid) => {
@@ -432,3 +388,7 @@ export const enemyMove = (lastMove, direction, grid) => {
 //   }
 //   return classes;
 // };
+
+export const getRandomInteger = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};

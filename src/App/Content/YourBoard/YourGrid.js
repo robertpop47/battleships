@@ -7,7 +7,7 @@ import {
   enemyMove,
 } from "../../utils/placeOnBoard";
 import {
-  updateYourShip,
+  selectYourNextShip,
   removeYourShip,
   setYourShip,
   startGame,
@@ -24,7 +24,19 @@ const YourGrid = () => {
 
   const [rotated, setRotated] = useState(false);
   const lastShipCoords = useRef(null);
-  const handleHover = (row, col, type) => {
+
+  const onMouseLeave = (row, col) => {
+    if (currentShip === null) {
+      return;
+    }
+    if (currentShip < ships.length) {
+      dispatch(removeYourShip(lastShipCoords.current));
+    }
+  };
+  const onMouseEnter = (row, col) => {
+    if (currentShip === null) {
+      return;
+    }
     if (currentShip < ships.length) {
       const shipData = {
         row,
@@ -32,16 +44,16 @@ const YourGrid = () => {
         length: ships[currentShip].size,
         rotated,
       };
-      if (type === "leave") {
-        dispatch(removeYourShip(lastShipCoords.current));
-      } else {
-        lastShipCoords.current = getShipCoords(shipData);
-        dispatch(setYourShip(lastShipCoords.current));
-      }
+
+      lastShipCoords.current = getShipCoords(shipData);
+      dispatch(setYourShip(lastShipCoords.current));
     }
   };
 
   const handleClick = (row, col) => () => {
+    if (currentShip === null) {
+      return;
+    }
     const data = {
       grid,
       row,
@@ -54,7 +66,7 @@ const YourGrid = () => {
 
     const gameUpdate = placeYourShip(data);
     if (gameUpdate) {
-      dispatch(updateYourShip(gameUpdate));
+      dispatch(selectYourNextShip(gameUpdate));
     }
     if (currentShip === ships.length - 1) {
       dispatch(startGame(start));
@@ -74,7 +86,8 @@ const YourGrid = () => {
           i={rowIndex}
           j={cellIndex}
           handleRotate={handleRotate}
-          handleHover={handleHover}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           handleClick={handleClick(rowIndex, cellIndex)}
         />
       );

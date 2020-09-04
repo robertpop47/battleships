@@ -10,7 +10,6 @@ import {
   lastEnemyMove,
 } from "../../../redux/actions";
 import { enemyMove } from "../../utils/placeOnBoard";
-import YourGrid from "../YourBoard/YourGrid";
 
 const EnemyGrid = () => {
   const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 export const UPDATE_ENEMY_SHIP = "UPDATE_ENEMY_SHIP";
-export const UPDATE_YOUR_SHIP = "UPDATE_YOUR_SHIP";
+export const SELECT_YOUR_NEXT_SHIP = "SELECT_YOUR_NEXT_SHIP";
 export const SET_YOUR_SHIP = "SET_YOUR_SHIP";
 export const SET_ENEMY_SHIP = "SET_ENEMY_SHIP";
 export const REMOVE_YOUR_SHIP = "REMOVE_YOUR_SHIP";
@@ -39,9 +39,9 @@ export const updateEnemyShip = () => {
     type: UPDATE_ENEMY_SHIP,
   };
 };
-export const updateYourShip = () => {
+export const selectYourNextShip = () => {
   return {
-    type: UPDATE_YOUR_SHIP,
+    type: SELECT_YOUR_NEXT_SHIP,
   };
 };
 export const setYourShip = (newCoordinates) => {
