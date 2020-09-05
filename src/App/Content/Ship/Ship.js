@@ -5,7 +5,6 @@ import clsx from "clsx";
 const Ship = ({ ship, index, sunk }) => {
   const start = useSelector((state) => state.startBoard);
   const currentShip = useSelector((state) => state.yourCurrentShip);
-
   return (
     <div
       style={{
@@ -13,7 +12,7 @@ const Ship = ({ ship, index, sunk }) => {
       }}
       className={clsx({
         ship: true,
-        sunk: sunk,
+        sunk: sunk && start,
         selected: index === currentShip || start,
       })}
     >

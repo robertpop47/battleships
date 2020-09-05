@@ -6,6 +6,14 @@ import { isSunk } from "../../utils/placeOnBoard";
 const YourShips = () => {
   const ships = useSelector((state) => state.yourShips);
   const board = useSelector((state) => state.yourGameBoard);
+
+  // const isShipSunk = (index) => {
+  //   if (isSunk(ships[index], board)) {
+  //     return [true, index];
+  //   }
+  //   return [false, index];
+  // };
+
   return (
     <div className="yourShips">
       <h3>Your Ships</h3>

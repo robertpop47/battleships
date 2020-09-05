@@ -10,6 +10,7 @@ const YourCell = ({
   onMouseEnter,
   onMouseLeave,
   handleClick,
+  occupied,
   // enemyTurn,
 }) => {
   return (
@@ -17,7 +18,7 @@ const YourCell = ({
       className={clsx({
         cell: true,
         active: value.hover,
-        activeOcupied: value.status === "occupied" && value.hover,
+        unavailable: value.status === "occupied" && value.hover,
         occupied: value.status === "occupied",
         hit: value.status === "hit",
         miss: value.status === "miss",
