@@ -209,7 +209,7 @@ export const AIMove = (lastMove, direction, grid) => {
   const y = lastMove[1];
 
   let nextDirection = direction;
-  debugger;
+
   if (
     grid[x][y].status !== "hit" &&
     grid[x][y].status !== "sunk" &&
@@ -443,6 +443,38 @@ export const AIMove = (lastMove, direction, grid) => {
             return [move, nextDirection];
           }
         }
+      }
+      if (
+        (x >= 1 && grid[x - 1][y].status === "empty") ||
+        (x >= 1 && grid[x - 1][y].status === "occupied")
+      ) {
+        const move = [x - 1, y];
+        nextDirection = "N";
+        return [move, nextDirection];
+      }
+      if (
+        (x <= 8 && grid[x + 1][y].status === "empty") ||
+        (x <= 8 && grid[x + 1][y].status === "occupied")
+      ) {
+        const move = [x + 1, y];
+        nextDirection = "S";
+        return [move, nextDirection];
+      }
+      if (
+        (y >= 1 && grid[x][y - 1].status === "empty") ||
+        (y >= 1 && grid[x][y - 1].status === "occupied")
+      ) {
+        const move = [x, y - 1];
+        nextDirection = "W";
+        return [move, nextDirection];
+      }
+      if (
+        (y <= 8 && grid[x][y + 1].status === "empty") ||
+        (y <= 8 && grid[x][y + 1].status === "occupied")
+      ) {
+        const move = [x, y + 1];
+        nextDirection = "E";
+        return [move, nextDirection];
       }
     }
 

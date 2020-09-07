@@ -18,7 +18,7 @@ const Footer = () => {
       <footer>
         <div className="mouse">
           <img
-            src="https://static.thenounproject.com/png/394670-200.png"
+            src="../../img/Mouse-1.svg"
             alt="Left mouse click width"
             width="40px"
             height="40px"
@@ -28,7 +28,7 @@ const Footer = () => {
         </div>
         <div className="mouse">
           <img
-            src="https://network1consulting.com/wp-content/uploads/2019/09/394671-200.png"
+            src="../../img/Mouse-1.svg"
             alt="Right mouse click"
             width="40px"
             height="40px"
@@ -42,8 +42,13 @@ const Footer = () => {
 
   return (
     <div className="buttons">
-      <button onClick={() => dispatch(START())}>START</button>
-      <button onClick={refreshPage}>RESET</button>
+      <button className="start" onClick={() => dispatch(START())}>
+        Start
+      </button>
+      <a className="refresh" onClick={refreshPage}>
+        <img src="../../../img/Icon.svg"></img>
+        <div>RESET</div>
+      </a>
     </div>
   );
 };

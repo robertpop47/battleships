@@ -67,6 +67,8 @@ const YourGrid = () => {
     const gameUpdate = placeYourShip(data);
     if (gameUpdate) {
       dispatch(selectYourNextShip(gameUpdate));
+    } else {
+      return;
     }
     if (currentShip === ships.length - 1) {
       dispatch(startGame(start));
