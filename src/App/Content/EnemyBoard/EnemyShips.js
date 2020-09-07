@@ -15,7 +15,7 @@ const EnemyShips = () => {
     <div className="enemyShips">
       <h3>Enemy Ships</h3>
       {ships.map((ship, index) => {
-        const sunk = isSunk(ship, board);
+        const shipSunk = isSunk(ships[index], board);
 
         return (
           <Ship
@@ -23,7 +23,7 @@ const EnemyShips = () => {
             index={index}
             key={index}
             current={enemyCurrentShip}
-            sunk={sunk}
+            sunk={shipSunk}
           />
         );
       })}

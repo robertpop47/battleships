@@ -10,6 +10,13 @@ body {
   flex-direction: column;
   width: 100%;
 }
+.endGame {
+  margin: auto;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  width: 100%;
+}
 
 .container1 {
   display: flex;
@@ -20,20 +27,18 @@ body {
 .container2 {
   position: relative;
   padding: 10px;
-  display: flex;
-  flex: 1;
-  margin: auto;
+  transition: opacity 1s;
 }
-.container2.disabled::after {
-  content: " ";
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.1);
+.container2.disabled {
+  opacity: 0.3;
+  pointer-events: none;
 }
-
+.container2.yourBoard {
+  margin-left: auto;
+}
+.container2.enemyBoard {
+  margin-right: auto;
+}
 .ship {
   height: 20px;
   background-color: rgba(0, 0, 0, 0.17);
@@ -49,16 +54,19 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  /*position: absolute;*/
-  right: -120px;
-  /*margin-right: 35px;*/
+  width: 140px;
+  position: absolute;
+  left: -150px;
   top: 0;
 }
 .enemyShips {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-left: 35px;
+  width: 140px;
+  position: absolute;
+  top: 0;
+  right: -150px;
 }
 .startBoard {
   display: flex;

@@ -10,7 +10,7 @@ import {
   lastEnemyMove,
   enemyShipsSunk,
 } from "../../../redux/actions";
-import { enemyMove, isSunk } from "../../utils/placeOnBoard";
+import { enemyMove, isSunk, AIMove } from "../../utils/placeOnBoard";
 
 const EnemyGrid = () => {
   const dispatch = useDispatch();
@@ -53,14 +53,22 @@ const EnemyGrid = () => {
     if (yourTurn) {
       if (grid[row][col].status === "occupied") {
         dispatch(yourMoveHit(row, col));
-      } else {
+      }
+      if (grid[row][col].status === "empty") {
         dispatch(yourMoveMiss(row, col));
+      }
+      if (
+        grid[row][col].status === "hit" ||
+        grid[row][col].status === "sunk" ||
+        grid[row][col].status === "miss"
+      ) {
+        return;
       }
       dispatch(setTurn(yourTurn));
 
       const coords = lastEnemyMoveCoords;
       const direction = enemyDirection;
-      const data = enemyMove(coords, direction, yourGrid);
+      const data = AIMove(coords, direction, yourGrid);
       const i = data[0][0];
       const j = data[0][1];
 
@@ -73,7 +81,7 @@ const EnemyGrid = () => {
       } else {
         dispatch(enemyMoveMiss(i, j));
       }
-      dispatch(setTurn(yourTurn));
+      setTimeout(() => dispatch(setTurn(yourTurn)), 1000);
     }
   };
 

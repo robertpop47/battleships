@@ -109,9 +109,21 @@ const initialState = {
     lastEnemyMove: [0, 0],
     lastEnemyMoveDirection: "N",
   },
+  yourSunkShips: 0,
+  enemySunkShips: 0,
 };
-
+let sunk = {
+  yourSunkShips: 0,
+  enemySunkShips: 0,
+};
 // placeRandomEnemyShips();
+
+const yourSunkShips = (state = initialState.yourSunkShips, action) => {
+  return sunk.yourSunkShips;
+};
+const enemySunkShips = (state = initialState.enemySunkShips, action) => {
+  return sunk.enemySunkShips;
+};
 
 const startGame = (state = initialState.showStartGame, action) => {
   if (action.type === START_GAME) {
@@ -194,8 +206,10 @@ const yourGameBoard = (state = initialState.yourGameBoard, action) => {
     newGameBoard[x][y] = { ...newGameBoard[x][y], status: "hit" };
 
     const ships = [...initialState.yourShipList];
+    let shipSunk = 0;
     for (let ship of ships) {
       if (isSunk(ship, newGameBoard)) {
+        shipSunk++;
         for (let pos of ship.positions) {
           const x = pos.row;
           const y = pos.col;
@@ -203,6 +217,7 @@ const yourGameBoard = (state = initialState.yourGameBoard, action) => {
         }
       }
     }
+    sunk.yourSunkShips = shipSunk;
 
     return newGameBoard;
   }
@@ -232,8 +247,10 @@ const enemyGameBoard = (state = initialState.enemyGameBoard, action) => {
     newGameBoard[x][y] = { ...newGameBoard[x][y], status: "hit" };
 
     const ships = [...initialState.enemyShipList];
+    let shipSunk = 0;
     for (let ship of ships) {
       if (isSunk(ship, newGameBoard)) {
+        shipSunk++;
         for (let pos of ship.positions) {
           const x = pos.row;
           const y = pos.col;
@@ -241,6 +258,7 @@ const enemyGameBoard = (state = initialState.enemyGameBoard, action) => {
         }
       }
     }
+    sunk.enemySunkShips = shipSunk;
 
     return newGameBoard;
   }
@@ -282,5 +300,7 @@ const battleship = combineReducers({
   startBoard,
   turn,
   enemyMove,
+  yourSunkShips,
+  enemySunkShips,
 });
 export default battleship;

@@ -17,7 +17,9 @@ import clsx from "clsx";
 
 const Content = () => {
   const startBoard = useSelector((state) => state.startBoard);
-  const yourTurn = useSelector((state) => state.yourTurn);
+  const yourTurn = useSelector((state) => state.turn);
+  const yourSunkShips = useSelector((state) => state.yourSunkShips);
+  const enemySunkShips = useSelector((state) => state.enemySunkShips);
   // const yourShips = useSelector((state) => state.yourShips);
   // const enemyShips = useSelector((state) => state.enemyShips);
   // const yourBoardGame = useSelector((state) => state.yourGameBoard);
@@ -46,33 +48,34 @@ const Content = () => {
   //   }
   // }
   if (startBoard) {
-    // if (youWon) {
-    //   return (
-    //     <div>
-    //       <h1>You Won! :) </h1>
-    //       <div className="buttons">
-    //         <button onClick={refreshPage}>RESET</button>
-    //       </div>
-    //     </div>
-    //   );
-    // }
-    // if (enemyWon) {
-    //   return (
-    //     <div>
-    //       <h1>Enemy Won! :( </h1>
-    //       <div className="buttons">
-    //         <button onClick={refreshPage}>RESET</button>
-    //       </div>
-    //     </div>
-    //   );
-    // }
+    if (enemySunkShips === 5) {
+      return (
+        <div className="endGame">
+          <h1>You Won! :) </h1>
+          <div className="buttons">
+            <button onClick={refreshPage}>RESET</button>
+          </div>
+        </div>
+      );
+    }
+    if (yourSunkShips === 5) {
+      return (
+        <div className="endGame">
+          <h1>Enemy Won! :( </h1>
+          <div className="buttons">
+            <button onClick={refreshPage}>RESET</button>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div className="startBoard">
         <div
           className={clsx({
             container2: true,
-            disabled: !yourTurn,
+            yourBoard: true,
+            disabled: yourTurn,
           })}
         >
           <YourShips />
@@ -87,7 +90,8 @@ const Content = () => {
         <div
           className={clsx({
             container2: true,
-            disabled: yourTurn,
+            enemyBoard: true,
+            disabled: !yourTurn,
           })}
         >
           <div className="boxBoard">

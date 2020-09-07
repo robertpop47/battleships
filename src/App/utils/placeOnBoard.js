@@ -96,14 +96,19 @@ export const getShipCoords = ({ row, col, length, rotated }) => {
 
 export const isSunk = (ship, grid) => {
   // debugger;
+  let isAllHit = true;
+  let isAllSunk = true;
   for (let pos of ship.positions) {
     const x = pos.row;
     const y = pos.col;
     if (grid[x][y].status !== "hit") {
-      return false;
+      isAllHit = false;
+    }
+    if (grid[x][y].status !== "sunk") {
+      isAllSunk = false;
     }
   }
-  return true;
+  return isAllHit || isAllSunk;
 };
 
 const tryGoNorth = (x, y, grid) => {
@@ -111,56 +116,63 @@ const tryGoNorth = (x, y, grid) => {
   let i = x - 1;
   let j = y;
   while (i >= 0) {
-    if (grid[i][j].status !== "hit" || grid[i][j].status !== "sunk") {
-      if (grid[i][j].status === "empty" || grid[i][j].status === "occupied") {
-        return [i, j];
-      }
+    if (grid[i][j].status === "empty" || grid[i][j].status === "occupied") {
+      return [i, j];
+    }
+    if (grid[i][j].status === "miss" || grid[i][j].status === "sunk") {
+      return null;
     }
     i--;
   }
-  return [x, y];
+  return null;
 };
 const tryGoSouth = (x, y, grid) => {
   // const grid = useSelector((state) => state.yourGameBoard);
   let i = x + 1;
   let j = y;
-  while (i < 9) {
-    if (grid[i][j].status !== "hit" || grid[i][j].status !== "sunk") {
-      if (grid[i][j].status === "empty" || grid[i][j].status === "occupied") {
-        return [i, j];
-      }
+  while (i <= 9) {
+    if (grid[i][j].status === "empty" || grid[i][j].status === "occupied") {
+      return [i, j];
     }
+    if (grid[i][j].status === "miss" || grid[i][j].status === "sunk") {
+      return null;
+    }
+
     i++;
   }
-  return [x, y];
+  return null;
 };
 const tryGoWest = (x, y, grid) => {
   // const grid = useSelector((state) => state.yourGameBoard);
   let i = x;
   let j = y - 1;
   while (j >= 0) {
-    if (grid[i][j].status !== "hit" || grid[i][j].status !== "sunk") {
-      if (grid[i][j].status === "empty" || grid[i][j].status === "occupied") {
-        return [i, j];
-      }
+    if (grid[i][j].status === "empty" || grid[i][j].status === "occupied") {
+      return [i, j];
     }
+    if (grid[i][j].status === "miss" || grid[i][j].status === "sunk") {
+      return null;
+    }
+
     j--;
   }
-  return [x, y];
+  return null;
 };
 const tryGoEast = (x, y, grid) => {
   // const grid = useSelector((state) => state.yourGameBoard);
   let i = x;
   let j = y + 1;
-  while (j < 9) {
-    if (grid[i][j].status !== "hit" || grid[i][j].status !== "sunk") {
-      if (grid[i][j].status === "empty" || grid[i][j].status === "occupied") {
-        return [i, j];
-      }
+  while (j <= 9) {
+    if (grid[i][j].status === "empty" || grid[i][j].status === "occupied") {
+      return [i, j];
     }
+    if (grid[i][j].status === "miss" || grid[i][j].status === "sunk") {
+      return null;
+    }
+
     j++;
   }
-  return [x, y];
+  return null;
 };
 
 const nextRandomMove = (grid) => {
@@ -181,213 +193,449 @@ const nextRandomMove = (grid) => {
   return [i, j];
 };
 
-export const enemyMove = (lastMove, direction, grid) => {
-  // const dispatch = useDispatch();
-  // const grid = useSelector((state) => state.yourGameBoard);
+const getFirstHitCell = (grid) => {
+  for (let x = 0; x < grid.length; x++) {
+    for (let y = 0; y < grid[x].length; y++) {
+      if (grid[x][y].status === "hit") {
+        return [x, y];
+      }
+    }
+  }
+  return null;
+};
+
+export const AIMove = (lastMove, direction, grid) => {
   const x = lastMove[0];
   const y = lastMove[1];
 
   let nextDirection = direction;
-
-  // const nextCoords = nextRandomMove(grid);
-  // const range = Math.floor(Math.random() * 4);
-  // if (range === 0) {
-  //   nextDirection = "N";
-  // }
-  // if (range === 1) {
-  //   nextDirection = "S";
-  // }
-  // if (range === 2) {
-  //   nextDirection = "W";
-  // }
-  // if (range === 3) {
-  //   nextDirection = "E";
-  // }
-  // return [nextCoords, nextDirection];
-  let i = x;
-  let j = y;
+  debugger;
+  if (
+    grid[x][y].status !== "hit" &&
+    grid[x][y].status !== "sunk" &&
+    grid[x][y].status !== "miss"
+  ) {
+    const move = nextRandomMove(grid);
+    nextDirection = "rand";
+    return [move, nextDirection];
+  }
   if (grid[x][y].status === "hit") {
-    let counter = 0;
-    // while (counter < 2) {
-    if (nextDirection === "N") {
-      // debugger;
-      const nextCoords = tryGoNorth(i, j, grid);
-
-      if (nextCoords[0] === -1) {
-        nextDirection = "S";
+    if (nextDirection === "rand") {
+      if (
+        x >= 1 &&
+        (grid[x - 1][y].status === "empty" ||
+          grid[x - 1][y].status === "occupied")
+      ) {
+        const move = [x - 1, y];
+        nextDirection = "N";
+        return [move, nextDirection];
       }
-      if (nextCoords[0] === i && nextCoords[1] === j) {
-        const nextCoords = nextRandomMove(grid);
-        return [nextCoords, nextDirection];
+      if (
+        x <= 8 &&
+        (grid[x + 1][y].status === "empty" ||
+          grid[x + 1][y].status === "occupied")
+      ) {
+        const move = [x + 1, y];
+        nextDirection = "S";
+        return [move, nextDirection];
+      }
+      if (
+        y <= 8 &&
+        (grid[x][y + 1].status === "empty" ||
+          grid[x][y + 1].status === "occupied")
+      ) {
+        const move = [x, y + 1];
+        nextDirection = "E";
+        return [move, nextDirection];
+      }
+      if (
+        y >= 1 &&
+        (grid[x][y - 1].status === "empty" ||
+          grid[x][y - 1].status === "occupied")
+      ) {
+        const move = [x, y - 1];
+        nextDirection = "W";
+        return [move, nextDirection];
+      }
+    }
+    if (nextDirection === "N") {
+      if (
+        x >= 1 &&
+        (grid[x - 1][y].status === "empty" ||
+          grid[x - 1][y].status === "occupied")
+      ) {
+        const move = [x - 1, y];
+        nextDirection = "N";
+        return [move, nextDirection];
       } else {
-        i = nextCoords[0];
-        j = nextCoords[1];
-        return [[i, j], "N"];
+        const move = tryGoSouth(x, y, grid);
+        if (move !== null) {
+          nextDirection = "S";
+          return [move, nextDirection];
+        }
       }
     }
     if (nextDirection === "S") {
-      // debugger;
-      const nextCoords = tryGoSouth(i, j, grid);
-
-      if (nextCoords[0] === 10) {
-        nextDirection = "W";
-      }
-      if (nextCoords[0] === i && nextCoords[1] === j) {
-        const nextCoords = nextRandomMove(grid);
-        return [nextCoords, nextDirection];
+      if (
+        x <= 8 &&
+        (grid[x + 1][y].status === "empty" ||
+          grid[x + 1][y].status === "occupied")
+      ) {
+        const move = [x + 1, y];
+        nextDirection = "S";
+        return [move, nextDirection];
       } else {
-        i = nextCoords[0];
-        j = nextCoords[1];
-        return [[i, j], "S"];
-      }
-    }
-    if (nextDirection === "W") {
-      const nextCoords = tryGoWest(i, j, grid);
-
-      if (nextCoords[1] === -1) {
-        nextDirection = "E";
-      }
-      if (nextCoords[0] === i && nextCoords[1] === j) {
-        const nextCoords = nextRandomMove(grid);
-        return [nextCoords, nextDirection];
-      } else {
-        i = nextCoords[0];
-        j = nextCoords[1];
-        return [[i, j], "W"];
+        const move = tryGoNorth(x, y, grid);
+        if (move !== null) {
+          nextDirection = "N";
+          return [move, nextDirection];
+        }
       }
     }
     if (nextDirection === "E") {
-      const nextCoords = tryGoEast(i, j, grid);
-
-      if (nextCoords[1] === 10) {
-        nextDirection = "N";
-      }
-      if (nextCoords[0] === i && nextCoords[1] === j) {
-        const nextCoords = nextRandomMove(grid);
-        return [nextCoords, nextDirection];
+      if (
+        y <= 8 &&
+        (grid[x][y + 1].status === "empty" ||
+          grid[x][y + 1].status === "occupied")
+      ) {
+        const move = [x, y + 1];
+        nextDirection = "E";
+        return [move, nextDirection];
       } else {
-        i = nextCoords[0];
-        j = nextCoords[1];
-        return [[i, j], "E"];
+        const move = tryGoWest(x, y, grid);
+        if (move !== null) {
+          nextDirection = "W";
+          return [move, nextDirection];
+        }
       }
     }
-    //   counter++;
-    // }
-
-    const nextCoords = nextRandomMove(grid);
-    // const range = Math.floor(Math.random() * 4);
-    // if (range === 0) {
-    //   nextDirection = "N";
-    // }
-    // if (range === 1) {
-    //   nextDirection = "S";
-    // }
-    // if (range === 2) {
-    //   nextDirection = "W";
-    // }
-    // if (range === 3) {
-    //   nextDirection = "E";
-    // }
-    return [nextCoords, nextDirection];
-  } else {
-    // let counter = 0;
-    // while (counter < 2) {
-    if (nextDirection === "N") {
-      const nextCoords = tryGoWest(i, j, grid);
-
-      if (nextCoords[1] === 10) {
-        nextDirection = "E";
-      }
-      if (nextCoords[0] === i && nextCoords[1] === j) {
-        const nextCoords = nextRandomMove(grid);
-        return [nextCoords, nextDirection];
+    if (nextDirection === "W") {
+      if (
+        y >= 1 &&
+        (grid[x][y - 1].status === "empty" ||
+          grid[x][y - 1].status === "occupied")
+      ) {
+        const move = [x, y - 1];
+        nextDirection = "W";
+        return [move, nextDirection];
       } else {
-        i = nextCoords[0];
-        j = nextCoords[1];
-        return [[i, j], "W"];
+        const move = tryGoEast(x, y, grid);
+        if (move !== null) {
+          nextDirection = "E";
+          return [move, nextDirection];
+        }
+      }
+    }
+
+    const firstHitCellCoords = getFirstHitCell(grid);
+    if (firstHitCellCoords !== null) {
+      const [x, y] = firstHitCellCoords;
+      if (x >= 1 && grid[x - 1][y].status === "hit") {
+        const move = tryGoNorth(x - 1, y, grid);
+        if (move !== null) {
+          nextDirection = "N";
+          return [move, nextDirection];
+        } else {
+          const move = tryGoSouth(x, y, grid);
+          if (move !== null) {
+            nextDirection = "S";
+            return [move, nextDirection];
+          }
+        }
+      }
+      if (x <= 8 && grid[x + 1][y].status === "hit") {
+        const move = tryGoSouth(x + 1, y, grid);
+        if (move !== null) {
+          nextDirection = "S";
+          return [move, nextDirection];
+        } else {
+          const move = tryGoNorth(x, y, grid);
+          if (move !== null) {
+            nextDirection = "N";
+            return [move, nextDirection];
+          }
+        }
+      }
+      if (y >= 1 && grid[x][y - 1].status === "hit") {
+        const move = tryGoWest(x, y - 1, grid);
+        if (move !== null) {
+          nextDirection = "W";
+          return [move, nextDirection];
+        } else {
+          const move = tryGoEast(x, y, grid);
+          if (move !== null) {
+            nextDirection = "E";
+            return [move, nextDirection];
+          }
+        }
+      }
+      if (y <= 8 && grid[x][y + 1].status === "hit") {
+        const move = tryGoEast(x, y + 1, grid);
+        if (move !== null) {
+          nextDirection = "E";
+          return [move, nextDirection];
+        } else {
+          const move = tryGoWest(x, y, grid);
+          if (move !== null) {
+            nextDirection = "W";
+            return [move, nextDirection];
+          }
+        }
+      }
+    }
+
+    const randMove = nextRandomMove(grid);
+    nextDirection = "rand";
+    return [randMove, nextDirection];
+  }
+  if (grid[x][y].status === "sunk") {
+    const firstHitCellCoords = getFirstHitCell(grid);
+    if (firstHitCellCoords !== null) {
+      const [x, y] = firstHitCellCoords;
+      if (x >= 1 && grid[x - 1][y].status === "hit") {
+        const move = tryGoNorth(x - 1, y, grid);
+        if (move !== null) {
+          nextDirection = "N";
+          return [move, nextDirection];
+        } else {
+          const move = tryGoSouth(x, y, grid);
+          if (move !== null) {
+            nextDirection = "S";
+            return [move, nextDirection];
+          }
+        }
+      }
+      if (x <= 8 && grid[x + 1][y].status === "hit") {
+        const move = tryGoSouth(x + 1, y, grid);
+        if (move !== null) {
+          nextDirection = "S";
+          return [move, nextDirection];
+        } else {
+          const move = tryGoNorth(x, y, grid);
+          if (move !== null) {
+            nextDirection = "N";
+            return [move, nextDirection];
+          }
+        }
+      }
+      if (y >= 1 && grid[x][y - 1].status === "hit") {
+        const move = tryGoWest(x, y - 1, grid);
+        if (move !== null) {
+          nextDirection = "W";
+          return [move, nextDirection];
+        } else {
+          const move = tryGoEast(x, y, grid);
+          if (move !== null) {
+            nextDirection = "E";
+            return [move, nextDirection];
+          }
+        }
+      }
+      if (y <= 8 && grid[x][y + 1].status === "hit") {
+        const move = tryGoEast(x, y + 1, grid);
+        if (move !== null) {
+          nextDirection = "E";
+          return [move, nextDirection];
+        } else {
+          const move = tryGoWest(x, y, grid);
+          if (move !== null) {
+            nextDirection = "W";
+            return [move, nextDirection];
+          }
+        }
+      }
+    }
+
+    const randMove = nextRandomMove(grid);
+    nextDirection = "rand";
+    return [randMove, nextDirection];
+  }
+  if (grid[x][y].status === "miss") {
+    if (nextDirection === "rand") {
+      const firstHitCellCoords = getFirstHitCell(grid);
+      if (firstHitCellCoords !== null) {
+        const [x, y] = firstHitCellCoords;
+        if (x >= 1 && grid[x - 1][y].status === "hit") {
+          const move = tryGoNorth(x - 1, y, grid);
+          if (move !== null) {
+            nextDirection = "N";
+            return [move, nextDirection];
+          } else {
+            const move = tryGoSouth(x, y, grid);
+            if (move !== null) {
+              nextDirection = "S";
+              return [move, nextDirection];
+            }
+          }
+        }
+        if (x <= 8 && grid[x + 1][y].status === "hit") {
+          const move = tryGoSouth(x + 1, y, grid);
+          if (move !== null) {
+            nextDirection = "S";
+            return [move, nextDirection];
+          } else {
+            const move = tryGoNorth(x, y, grid);
+            if (move !== null) {
+              nextDirection = "N";
+              return [move, nextDirection];
+            }
+          }
+        }
+        if (y >= 1 && grid[x][y - 1].status === "hit") {
+          const move = tryGoWest(x, y - 1, grid);
+          if (move !== null) {
+            nextDirection = "W";
+            return [move, nextDirection];
+          } else {
+            const move = tryGoEast(x, y, grid);
+            if (move !== null) {
+              nextDirection = "E";
+              return [move, nextDirection];
+            }
+          }
+        }
+        if (y <= 8 && grid[x][y + 1].status === "hit") {
+          const move = tryGoEast(x, y + 1, grid);
+          if (move !== null) {
+            nextDirection = "E";
+            return [move, nextDirection];
+          } else {
+            const move = tryGoWest(x, y, grid);
+            if (move !== null) {
+              nextDirection = "W";
+              return [move, nextDirection];
+            }
+          }
+        }
+      }
+
+      const randMove = nextRandomMove(grid);
+      nextDirection = "rand";
+      return [randMove, nextDirection];
+    }
+    if (nextDirection === "N") {
+      const move = tryGoSouth(x, y, grid);
+      if (move !== null) {
+        nextDirection = "S";
+        return [move, nextDirection];
       }
     }
     if (nextDirection === "S") {
-      const nextCoords = tryGoEast(i, j, grid);
-
-      if (nextCoords[1] === 10) {
-        nextDirection = "W";
-      }
-      if (nextCoords[0] === i && nextCoords[1] === j) {
-        const nextCoords = nextRandomMove(grid);
-        return [nextCoords, nextDirection];
-      } else {
-        i = nextCoords[0];
-        j = nextCoords[1];
-        return [[i, j], "E"];
+      const move = tryGoNorth(x, y, grid);
+      if (move !== null) {
+        nextDirection = "N";
+        return [move, nextDirection];
       }
     }
     if (nextDirection === "W") {
-      const nextCoords = tryGoSouth(i, j, grid);
-
-      if (nextCoords[0] === -1) {
-        nextDirection = "N";
-      }
-      if (nextCoords[0] === i && nextCoords[1] === j) {
-        const nextCoords = nextRandomMove(grid);
-        return [nextCoords, nextDirection];
-      } else {
-        i = nextCoords[0];
-        j = nextCoords[1];
-        return [[i, j], "S"];
+      const move = tryGoEast(x, y, grid);
+      if (move !== null) {
+        nextDirection = "W";
+        return [move, nextDirection];
       }
     }
     if (nextDirection === "E") {
-      const nextCoords = tryGoNorth(i, j, grid);
-
-      if (nextCoords[0] === 10) {
-        nextDirection = "S";
-      }
-      if (nextCoords[0] === i && nextCoords[1] === j) {
-        const nextCoords = nextRandomMove(grid);
-        return [nextCoords, nextDirection];
-      } else {
-        i = nextCoords[0];
-        j = nextCoords[1];
-        return [[i, j], "N"];
+      const move = tryGoWest(x, y, grid);
+      if (move !== null) {
+        nextDirection = "E";
+        return [move, nextDirection];
       }
     }
-    //   counter++;
-    // }
 
-    const nextCoords = nextRandomMove(grid);
-    // const range = Math.floor(Math.random() * 4);
-    // if (range === 0) {
-    //   nextDirection = "N";
-    // }
-    // if (range === 1) {
-    //   nextDirection = "S";
-    // }
-    // if (range === 2) {
-    //   nextDirection = "W";
-    // }
-    // if (range === 3) {
-    //   nextDirection = "E";
-    // }
-    return [nextCoords, nextDirection];
+    const firstHitCellCoords = getFirstHitCell(grid);
+    if (firstHitCellCoords !== null) {
+      const [x, y] = firstHitCellCoords;
+      if (x >= 1 && grid[x - 1][y].status === "hit") {
+        const move = tryGoNorth(x - 1, y, grid);
+        if (move !== null) {
+          nextDirection = "N";
+          return [move, nextDirection];
+        } else {
+          const move = tryGoSouth(x, y, grid);
+          if (move !== null) {
+            nextDirection = "S";
+            return [move, nextDirection];
+          }
+        }
+      }
+      if (x <= 8 && grid[x + 1][y].status === "hit") {
+        const move = tryGoSouth(x + 1, y, grid);
+        if (move !== null) {
+          nextDirection = "S";
+          return [move, nextDirection];
+        } else {
+          const move = tryGoNorth(x, y, grid);
+          if (move !== null) {
+            nextDirection = "N";
+            return [move, nextDirection];
+          }
+        }
+      }
+      if (y >= 1 && grid[x][y - 1].status === "hit") {
+        const move = tryGoWest(x, y - 1, grid);
+        if (move !== null) {
+          nextDirection = "W";
+          return [move, nextDirection];
+        } else {
+          const move = tryGoEast(x, y, grid);
+          if (move !== null) {
+            nextDirection = "E";
+            return [move, nextDirection];
+          }
+        }
+      }
+      if (y <= 8 && grid[x][y + 1].status === "hit") {
+        const move = tryGoEast(x, y + 1, grid);
+        if (move !== null) {
+          nextDirection = "E";
+          return [move, nextDirection];
+        } else {
+          const move = tryGoWest(x, y, grid);
+          if (move !== null) {
+            nextDirection = "W";
+            return [move, nextDirection];
+          }
+        }
+      }
+      if (
+        (x >= 1 && grid[x - 1][y].status === "empty") ||
+        (x >= 1 && grid[x - 1][y].status === "occupied")
+      ) {
+        const move = [x - 1, y];
+        nextDirection = "N";
+        return [move, nextDirection];
+      }
+      if (
+        (x <= 8 && grid[x + 1][y].status === "empty") ||
+        (x <= 8 && grid[x + 1][y].status === "occupied")
+      ) {
+        const move = [x + 1, y];
+        nextDirection = "S";
+        return [move, nextDirection];
+      }
+      if (
+        (y >= 1 && grid[x][y - 1].status === "empty") ||
+        (y >= 1 && grid[x][y - 1].status === "occupied")
+      ) {
+        const move = [x, y - 1];
+        nextDirection = "W";
+        return [move, nextDirection];
+      }
+      if (
+        (y <= 8 && grid[x][y + 1].status === "empty") ||
+        (y <= 8 && grid[x][y + 1].status === "occupied")
+      ) {
+        const move = [x, y + 1];
+        nextDirection = "E";
+        return [move, nextDirection];
+      }
+    }
+
+    const randMove = nextRandomMove(grid);
+    nextDirection = "rand";
+    return [randMove, nextDirection];
   }
 };
-
-// export const classUpdate = (cell) => {
-//   let classes = "cell ";
-//   if (cell.status === "occupied" && cell.hover) {
-//     classes += "active-occupied ";
-//   } else if (cell.hover) {
-//     classes += "active ";
-//   } else if (cell.status === "occupied") {
-//     classes += "occupied ";
-//   } else if (cell.status === "hit") {
-//     classes += "hit ";
-//   } else if (cell.status === "sunk") {
-//     classes += "sunk ";
-//   }
-//   return classes;
-// };
 
 export const getRandomInteger = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
