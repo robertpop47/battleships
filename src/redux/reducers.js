@@ -13,7 +13,8 @@ import {
   ENEMY_MOVE_HIT,
   ENEMY_MOVE_MISS,
   ENEMY_MOVE,
-  ENEMY_SHIPS_SUNK,
+  YOUR_SUNK_SHIPS,
+  ENEMY_SUNK_SHIPS,
 } from "./actions";
 import { isSunk } from "../App/utils/placeOnBoard";
 
@@ -120,9 +121,15 @@ let sunk = {
 // placeRandomEnemyShips();
 
 const yourSunkShips = (state = initialState.yourSunkShips, action) => {
+  // if (action.type === "YOUR_SUNK_SHIPS") {
+  //   return action.payload;
+  // }
   return sunk.yourSunkShips;
 };
 const enemySunkShips = (state = initialState.enemySunkShips, action) => {
+  // if (action.type === "ENEMY_SUNK_SHIPS") {
+  //   return action.payload;
+  // }
   return sunk.enemySunkShips;
 };
 

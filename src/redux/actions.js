@@ -12,7 +12,8 @@ export const SET_TURN = "SET_TURN";
 export const ENEMY_MOVE_HIT = "ENEMY_MOVE_HIT";
 export const ENEMY_MOVE_MISS = "ENEMY_MOVE_MISS";
 export const ENEMY_MOVE = "ENEMY_MOVE";
-export const ENEMY_SHIPS_SUNK = "ENEMY_SHIPS_SUNK";
+export const YOUR_SUNK_SHIPS = "YOUR_SUNK_SHIPS";
+export const ENEMY_SUNK_SHIPS = "ENEMY_SUNK_SHIPS";
 
 export const updateGrid = (grid) => {
   return {
@@ -119,11 +120,20 @@ export const lastEnemyMove = (coords, direction) => {
     },
   };
 };
-// export const enemyShipsSunk = (sunk) => {
-//   return {
-//     type: ENEMY_SHIPS_SUNK,
-//     payload: {
-//       sunk,
-//     },
-//   };
-// };
+export const yourSunkShips = (sunk) => {
+  return {
+    type: YOUR_SUNK_SHIPS,
+    payload: {
+      sunk,
+    },
+  };
+};
+
+export const enemySunkShips = (sunk) => {
+  return {
+    type: ENEMY_SUNK_SHIPS,
+    payload: {
+      sunk,
+    },
+  };
+};
