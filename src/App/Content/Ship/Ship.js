@@ -2,9 +2,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 import clsx from "clsx";
 
-const Ship = ({ ship, index, sunk }) => {
+const Ship = ({ ship, index, current, board, sunk }) => {
   const start = useSelector((state) => state.startBoard);
-  const currentShip = useSelector((state) => state.yourCurrentShip);
+  // debugger;
   return (
     <div
       style={{
@@ -12,8 +12,8 @@ const Ship = ({ ship, index, sunk }) => {
       }}
       className={clsx({
         ship: true,
-        sunk: sunk && start,
-        selected: index === currentShip || start,
+        sunk: start && sunk,
+        selected: index === current || start,
       })}
     >
       {" "}

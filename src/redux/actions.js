@@ -12,6 +12,7 @@ export const SET_TURN = "SET_TURN";
 export const ENEMY_MOVE_HIT = "ENEMY_MOVE_HIT";
 export const ENEMY_MOVE_MISS = "ENEMY_MOVE_MISS";
 export const ENEMY_MOVE = "ENEMY_MOVE";
+export const ENEMY_SHIPS_SUNK = "ENEMY_SHIPS_SUNK";
 
 export const updateGrid = (grid) => {
   return {
@@ -118,3 +119,11 @@ export const lastEnemyMove = (coords, direction) => {
     },
   };
 };
+// export const enemyShipsSunk = (sunk) => {
+//   return {
+//     type: ENEMY_SHIPS_SUNK,
+//     payload: {
+//       sunk,
+//     },
+//   };
+// };

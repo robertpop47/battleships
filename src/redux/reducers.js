@@ -13,6 +13,7 @@ import {
   ENEMY_MOVE_HIT,
   ENEMY_MOVE_MISS,
   ENEMY_MOVE,
+  ENEMY_SHIPS_SUNK,
 } from "./actions";
 import { isSunk } from "../App/utils/placeOnBoard";
 
@@ -54,7 +55,7 @@ const initialState = {
       name: "Carrier",
       size: 5,
       positions: [],
-      sunk: false,
+      sunk: true,
     },
     {
       name: "Battleship",
@@ -141,6 +142,15 @@ const yourShips = (state = initialState.yourShipList, action) => {
 };
 
 const enemyShips = (state = initialState.enemyShipList, action) => {
+  // if (action.type === ENEMY_SHIPS_SUNK) {
+  //   let sunk = action.payload;
+  //   let ships = [...state];
+  //   for (let shipIndex in ships) {
+  //     ships[shipIndex].sunk = sunk[shipIndex];
+  //   }
+
+  //   return [...ships];
+  // }
   return state;
 };
 

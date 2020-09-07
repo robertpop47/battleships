@@ -1,22 +1,32 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import { enemyShipsSunk } from "../../../redux/actions";
 import Ship from "../Ship";
 import { isSunk } from "../../utils/placeOnBoard";
 
 const EnemyShips = () => {
+  // const dispatch = useDispatch();
   const ships = useSelector((state) => state.enemyShips);
   const board = useSelector((state) => state.enemyGameBoard);
+  const enemyCurrentShip = useSelector((state) => state.enemyCurrentShip);
+
   return (
     <div className="enemyShips">
       <h3>Enemy Ships</h3>
-      {ships.map((ship, index) => (
-        <Ship
-          ship={ship}
-          index={index}
-          key={index}
-          sunk={isSunk(ships[index], board)}
-        />
-      ))}
+      {ships.map((ship, index) => {
+        const sunk = isSunk(ship, board);
+
+        return (
+          <Ship
+            ship={ship}
+            index={index}
+            key={index}
+            current={enemyCurrentShip}
+            sunk={sunk}
+          />
+        );
+      })}
     </div>
   );
 };

@@ -8,11 +8,13 @@ import {
   enemyMoveMiss,
   setTurn,
   lastEnemyMove,
+  enemyShipsSunk,
 } from "../../../redux/actions";
-import { enemyMove } from "../../utils/placeOnBoard";
+import { enemyMove, isSunk } from "../../utils/placeOnBoard";
 
 const EnemyGrid = () => {
   const dispatch = useDispatch();
+  const ships = useSelector((state) => state.enemyShips);
   const grid = useSelector((state) => state.enemyGameBoard);
   const yourGrid = useSelector((state) => state.yourGameBoard);
   const yourTurn = useSelector((state) => state.turn);
@@ -20,6 +22,17 @@ const EnemyGrid = () => {
     lastEnemyMove: lastEnemyMoveCoords,
     lastEnemyMoveDirection: enemyDirection,
   } = useSelector((state) => state.enemyMove);
+
+  // const isEnemyShipSunk = () => () => {
+  // let sunk = Array(ships.length).fill(false);
+  // for (let shipIndex in ships) {
+  //   if (isSunk(ships[shipIndex], grid)) {
+  //     sunk[shipIndex] = true;
+  //   }
+  // }
+  // debugger;
+  // dispatch(enemyShipsSunk(sunk));
+
   // const { lastEnemyMoveCoords, enemyDirection } = lastEnemyMoveData;
 
   // const enemyTurn = () => () => {
