@@ -53,7 +53,10 @@ const Content = () => {
         <div className="endGame">
           <h1>You Won! :) </h1>
           <div className="buttons">
-            <button onClick={refreshPage}>RESET</button>
+            <a className="refresh" onClick={refreshPage}>
+              <img src="../../../img/Icon.svg"></img>
+              <div>Reset</div>
+            </a>
           </div>
         </div>
       );
@@ -63,7 +66,10 @@ const Content = () => {
         <div className="endGame">
           <h1>Enemy Won! :( </h1>
           <div className="buttons">
-            <button onClick={refreshPage}>RESET</button>
+            <a className="refresh" onClick={refreshPage}>
+              <img src="../../../img/Icon.svg"></img>
+              <div>Reset</div>
+            </a>
           </div>
         </div>
       );

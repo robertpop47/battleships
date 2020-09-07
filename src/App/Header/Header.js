@@ -5,7 +5,7 @@ import GameStatus from "./GameStatus";
 const Header = () => {
   return (
     <header>
-      <h1>Battleship</h1>
+      <h2>Battleship</h2>
       <GameStatus />
     </header>
   );

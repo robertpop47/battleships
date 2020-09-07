@@ -112,6 +112,7 @@ const initialState = {
   yourSunkShips: 0,
   enemySunkShips: 0,
 };
+
 let sunk = {
   yourSunkShips: 0,
   enemySunkShips: 0,

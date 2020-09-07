@@ -47,7 +47,7 @@ const Footer = () => {
       </button>
       <a className="refresh" onClick={refreshPage}>
         <img src="../../../img/Icon.svg"></img>
-        <div>RESET</div>
+        <div>Reset</div>
       </a>
     </div>
   );
