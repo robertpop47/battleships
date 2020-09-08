@@ -1,18 +1,15 @@
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
   margin: 0;
-  background: #f8f8f8;
+  background: rgba(248, 248, 248, 1);
 }
 
 h2 {
-  margin: auto;
-  width: 180px;
-  height: 35px;
-  padding-top: 10px;
   text-align: center;
-  letter-spacing: 0px;
+  font-size: 24px;
+  padding-top: 40px;
+  margin-bottom: 20px;
   color: rgba(0, 0, 0, 1);
-  opacity: 1;
 }
 
 #root {
@@ -38,7 +35,7 @@ h2 {
 .container2 {
   position: relative;
   padding: 10px;
-  transition: opacity 1s;
+  transition: opacity 0.5s;
 }
 .container2.disabled {
   opacity: 0.3;
@@ -51,15 +48,15 @@ h2 {
   margin-right: auto;
 }
 .ship {
-  height: 20px;
-  background-color: rgba(0, 0, 0, 0.17);
+  height: 10px;
+  background-color: rgba(221, 221, 221, 1);
   margin-bottom: 10px;
 }
 .ship.selected {
-  background-color: rgba(35, 208, 184, 0.5);
+  background-color: rgba(34, 208, 184, 0.5);
 }
 .ship.sunk {
-  background-color: rgba(255, 0, 0, 0.5);
+  background-color: rgba(255, 73, 73, 1);
 }
 .yourShips {
   display: flex;
@@ -67,8 +64,11 @@ h2 {
   align-items: flex-end;
   width: 140px;
   position: absolute;
-  left: -150px;
+  left: -170px;
   top: 0;
+}
+.yourShips h3 {
+  font-size: 14px;
 }
 .enemyShips {
   display: flex;
@@ -77,15 +77,14 @@ h2 {
   width: 140px;
   position: absolute;
   top: 0;
-  right: -150px;
+  right: -170px;
 }
 .startBoard {
   display: flex;
   width: 100%;
 }
 .boxBoard {
-  width: 435px;
-  height: 435px;
+  padding: 10px 30px 30px 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,18 +95,21 @@ h2 {
 }
 
 .grid {
-  width: 350px;
-  height: 350px;
+  width: 400px;
+  height: 400px;
   display: flex;
   flex-wrap: wrap;
   margin: auto;
+  border-top: 1px solid rgba(221, 221, 221, 1);
+  border-right: 1px solid rgba(221, 221, 221, 1);
 }
 
 .cell {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   box-sizing: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-left: 1px solid rgba(221, 221, 221, 1);
+  border-bottom: 1px solid rgba(221, 221, 221, 1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -118,8 +120,8 @@ h2 {
 }
 .numbers-row .cell-text,
 .letters-collumn .cell-text {
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.45);
+  font-size: 14px;
+  color: rgba(119, 119, 119, 1);
 }
 
 .letters-collumn {
@@ -128,8 +130,8 @@ h2 {
 }
 
 .cell-text {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -146,12 +148,16 @@ header {
 }
 
 .game-status {
+  margin-top: 0;
+  margin-bottom: 15px;
   color: #23d0b8;
+  font-weight: 500;
 }
 
 footer {
-  display: flex;
-  justify-content: center;
+  padding-top: 20px;
+  width: 400px;
+  margin: 0 auto;
   align-items: center;
   flex-direction: column;
   margin: auto;
@@ -160,15 +166,16 @@ footer {
 }
 
 .mouse {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 20px;
+  display: inline-flex;
+  color: rgba(119, 119, 119, 1);
+  font-size: 14px;
+  padding-bottom: 20px;
 }
-
-.text_mouse {
-  font-weight: bold;
-  padding-right: 5px;
-  padding-left: 5px;
+.mouse img {
+  margin-right: 10px;
+}
+.mouse b {
+  margin-right: 5px;
 }
 
 .buttons {
@@ -180,42 +187,42 @@ footer {
 }
 
 .start {
-  top: 630px;
-  left: 560px;
-  width: 72px;
   height: 40px;
-  background: rgba(52, 201, 80, 1) 0% 0% no-repeat padding-box;
+  line-height: 40px;
+  min-width: 72px;
+  margin-right: 30px;
+  background: rgba(52, 201, 80, 1);
   border-radius: 5px;
   text-align: center;
-  font: normal normal bold 14px/19px;
-  letter-spacing: 0px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 1);
-  opacity: 1;
+  border: 0;
+  cursor: pointer;
+}
+.start:focus {
+  outline: 0;
 }
 
 .refresh {
-  top: 650px;
-  left: 680px;
   width: 58px;
-  height: 19px;
+  height: 40px;
+  min-height: 40px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-top: 10px;
-  padding-left: 5px;
+  cursor: pointer;
 }
 .refresh div {
   text-align: center;
   text-decoration: underline;
-  font: normal normal normal 14px/19px;
-  letter-spacing: 0px;
+  font-size: 14px;
   color: rgba(52, 201, 80, 1);
-  opacity: 1;
 }
 .refresh img {
   width: 14px;
   height: 14px;
+  margin-right: 8px;
 }
 /* {
   width: 32px;
@@ -235,7 +242,7 @@ button.reset {
 }
 
 .active {
-  background-color: rgba(0, 0, 0, 0.17);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .occupied {

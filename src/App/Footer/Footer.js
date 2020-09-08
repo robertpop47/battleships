@@ -23,8 +23,7 @@ const Footer = () => {
             width="40px"
             height="40px"
           />
-          <p className="text_mouse">Left mouse click</p>
-          <p>to place current ship</p>
+          <b>Left mouse click</b> to place current ship
         </div>
         <div className="mouse">
           <img
@@ -33,8 +32,7 @@ const Footer = () => {
             width="40px"
             height="40px"
           />
-          <p className="text_mouse">Right mouse click</p>
-          <p>to rotate current ship (before placing)</p>
+          <b>Right mouse click</b> to rotate current ship (before placing)
         </div>
       </footer>
     );

@@ -8,7 +8,7 @@ const Ship = ({ ship, index, current, board, sunk }) => {
   return (
     <div
       style={{
-        width: `${ship.size * 20}px`,
+        width: `${ship.size * 10}px`,
       }}
       className={clsx({
         ship: true,
